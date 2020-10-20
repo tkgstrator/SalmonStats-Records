@@ -5,7 +5,7 @@
     </header>
     <div class="coop-overfishing-header">
       <h2><span>Salmon Run</span></h2>
-      <h3><span>LanPlay Optimized Records</span></h3>
+      <h3><span>LanPlay Records</span></h3>
     </div>
     <div class="coop-overfishing-list-wrapper">
       <div id="coop-overfishing-records"></div>
