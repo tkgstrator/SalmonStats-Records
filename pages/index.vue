@@ -14,12 +14,14 @@
 </template>
 
 <script>
+const BASE_STAGE_URL = "https://app.splatoon2.nintendo.net/images/coop_stage/"
+const STAGE_URL = { shakeup: "65c68c6f0641cc5654434b78a6f10b0ad32ccdee.png", shakeship: "e07d73b7d9f0c64e552b34a2e6c29b8564c63388.png", shakehouse: "6d68f5baa75f3a94e5e9bfb89b82e7377e3ecd2c.png", shakelift: "e9f7c7b35e6d46778cd3cbc0d89bd7e1bc3be493.png", shakeride: "50064ec6e97aac91e70df5fc2cfecf61ad8615fd.png" }
 const WATER_WORD = { 0: { ja: "", en: "Low tide" }, 1: { ja: "", en: "Normal" }, 2: { ja: "", en: "High tide" } }
 const EVENT_WORD = { 0: { ja: "", en: "No Event" }, 1: { ja: "", en: "Rush" }, 2: { ja: "", en: "Goldie Seeking" }, 3: { ja: "", en: "Griller" }, 4: { ja: "", en: "The Mothership" }, 5: { ja: "", en: "Fog" }, 6: { ja: "", en: "Cohock Charge" } }
 const STAGE_WORD = { shakeup: { ja: "", en: "Spawning Grounds" }, shakeship: { ja: "", en: "Marooner's Bay" }, shakehouse: { ja: "", en: "Lost Outpost" }, shakelift: { ja: "", en: "Salmonid Smokeyard" }, shakeride: { ja: "", en: "Ruins of Ark Polaris" } }
 const BASE_WEAPON_URL = "https://app.splatoon2.nintendo.net/images/weapon/"
 const BASE_COOP_WEAPON_URL = "https://app.splatoon2.nintendo.net/images/coop_weapons/"
-const WEAPONS = { 0: "32d41a5d14de756c3e5a1ee97a9bd8fcb9e69bf5.png", 10: "91b6666bcbfccc204d86f21222a8db22a27d08d0.png", 20: "e5a97d52f12a83a037526588363021f2c1f718b0.png", 30: "c6ab7ebff7af7f7604eb53a12851da880b1ec2c7.png", 40: "e1d09fc9502a81c82137c8dcd5a872eb872af697.png", 50: "df04ddaf086cea94491df553a6d2550230a4da3c.png", 5000: "cc4bc30ff53bf2b45bd5e3dadceb39d52b95761f.png", 5010: "bb5caf24e43f8c7ceb126670bf24fd3aa9a3c3fc.png", 5020: "7d6032f0ceee14c4607385b848c6e486b84a2865.png", "5030": "aaead5ff0b63cdcb989b211d649b2552bb3e3a1b.png", 5040: "ba750d284eb067abdc995435c3358eed4e6f90fa.png", 20030: "c2c0653d3246ea6df2b595c68e907f68eda49b08.png" }
+const WEAPONS = { 0: "32d41a5d14de756c3e5a1ee97a9bd8fcb9e69bf5.png", 10: "91b6666bcbfccc204d86f21222a8db22a27d08d0.png", 20: "e5a97d52f12a83a037526588363021f2c1f718b0.png", 30: "c6ab7ebff7af7f7604eb53a12851da880b1ec2c7.png", 40: "e1d09fc9502a81c82137c8dcd5a872eb872af697.png", 50: "df04ddaf086cea94491df553a6d2550230a4da3c.png", 1020: "3d274190988ad20dd1b02825448edbb6e12c720c.png", 2010: "1ed94885bef2b0e498ed4dd76bea9064c85cfc94.png", 5000: "cc4bc30ff53bf2b45bd5e3dadceb39d52b95761f.png", 5010: "bb5caf24e43f8c7ceb126670bf24fd3aa9a3c3fc.png", 5020: "7d6032f0ceee14c4607385b848c6e486b84a2865.png", "5030": "aaead5ff0b63cdcb989b211d649b2552bb3e3a1b.png", 5040: "ba750d284eb067abdc995435c3358eed4e6f90fa.png", 20030: "c2c0653d3246ea6df2b595c68e907f68eda49b08.png" }
 const url = "https://script.googleusercontent.com/macros/echo?user_content_key=ummdOBdAeKIIvWWalKMFmUeUGjzsB0NVpWdeYai1h1R0eB5u5dAHS3VFk_W8Q0O9IYxjHo5NeMPd7-ER5BG3d_69WarY2r8hm5_BxDlH2jW0nuo2oDemN9CCS2h10ox_1xSncGQajx_ryfhECjZEnNODCIGpCvTIG_y73l0eN6DXTL7am_LUGn2yZvQU_kJ211U6kHKox2FF9vc0kMk0UwA5oRoKKJbw&lib=MM2j9I9WqXTpiAIT5WzJb5jD0sxkqxnr0"
 let keys = ["wave", "shakeup", "shakeship", "shakehouse", "shakelift", "shakeride"]
 
@@ -32,14 +34,21 @@ export default {
     var table = document.createElement("table")
     // ヘッダーを作成する
     var tr = document.createElement("tr")
+    var thead = document.createElement("thead")
 
     keys.forEach(key => {
       var th = document.createElement("th")
-      if (key != "wave")
-        th.textContent = STAGE_WORD[key]["en"]
-      tr.appendChild(th)
+      if (key != "wave") {
+        var img = document.createElement("img")
+        var name = document.createElement("p")
+        img.src = BASE_STAGE_URL + STAGE_URL[key]
+        name.textContent = STAGE_WORD[key]["en"]
+        th.appendChild(img)
+        th.appendChild(name)
+      }
+      thead.appendChild(th)
     });
-    table.appendChild(tr)
+    table.appendChild(thead)
 
     // ステージごとにデータを整形
     let data = []
@@ -68,26 +77,28 @@ export default {
       }
       tr.appendChild(td)
 
+      // 各種レコードを載せる
       for (let id = 0; id <= 4; id++) {
         const weapon_list = data[id][i]["weapon_list"].split(",")
+        const golden_ikura_num = data[id][i]["golden_ikura_num"]
+        const seed = data[id][i]["seed"] // ゲームシード情報（ないかもしれない）
+        const link = data[id][i]["movie"] // LanPlayだとリザルト取得できないので多分ある
+
         var td = document.createElement("td")
         var eggs = document.createElement("p")
         var span = document.createElement("span")
 
-        eggs.className = "eggs"
-        span.className = "golden_ikura_num"
-        span.textContent = data[id][i]["golden_ikura_num"]
-        eggs.appendChild(span)
-        td.appendChild(eggs)
-
-
-        // 空っぽじゃなかったら作成する
-        if (weapon_list.length != 1) {
+        if (golden_ikura_num >= 0) {
+          eggs.className = "eggs"
+          span.className = "golden_ikura_num"
+          // ここもうちょいかっこよく書きたいよね
+          span.textContent = data[id][i]["golden_ikura_num"]
+          eggs.appendChild(span)
+          td.appendChild(eggs)
           var ul = document.createElement("ul")
           ul.className = "weapons"
 
           weapon_list.forEach(weapon => {
-            console.log(weapon)
             var li = document.createElement("li")
             var img = document.createElement("img")
             img.src = BASE_WEAPON_URL + WEAPONS[weapon.trim()]
@@ -95,9 +106,23 @@ export default {
             ul.appendChild(li)
           })
           td.appendChild(ul)
+          var links = document.createElement("p")
+          var video = document.createElement("a")
+          var img = document.createElement("img")
+          links.className = "links"
+          img.src = "https://gungeespla.github.io/salmon_run_records/assets/img/link-video.png"
+          video.href = link
+          video.appendChild(img)
+          links.appendChild(video)
+          td.appendChild(links)
+        } else {
+          eggs.className = "norecords"
+          span.textContent = "-"
+          eggs.appendChild(span)
+          td.appendChild(eggs)
         }
-        tr.appendChild(td)
 
+        tr.appendChild(td)
       }
       table.appendChild(tr)
     }
@@ -260,28 +285,48 @@ div {
   #coop-overfishing-records {
     table {
       font-family: "Splatfont2";
+      // table-layout: auto;
       table-layout: fixed;
       width: 100%;
+      max-width: 1200px;
       // text-align: center;
       background: #150909;
       // border-collapse: collapse;
 
       background-size: 40px 40px;
       padding: 0 4px;
+      margin: 0 auto;
       margin-bottom: 24px;
       color: #fff;
     }
 
+    thead {
+      th {
+        img {
+          object-fit: scale-down;
+          width: 100%;
+          max-width: 12em;
+          border-radius: 0.5em;
+        }
+      }
+
+      p {
+        font-size: 1.2em;
+      }
+    }
+
     td {
+      display: float;
       background: rgba(255, 255, 255, 0.1);
       background-image: url(https://app.splatoon2.nintendo.net/images/bundled/b24ee02521f18ebe1bf8b05e1396c3dc.png);
       background-size: 40px 40px;
       border-radius: 0.5em;
       padding: 0.3em;
       border: 0.1em solid #150604;
-      height: 60px;
+      // height: 60px;
       vertical-align: middle;
       text-align: center;
+      // width: 100px;
 
       &::before {
         white-space: pre;
@@ -307,6 +352,12 @@ div {
         margin-top: -0.1em;
         filter: drop-shadow(0.15em 0.15em 0 #000);
       }
+    }
+
+    .norecords {
+      font-size: 125%;
+      color: yellow;
+      text-shadow: 0.15em 0.15em 0 #000;
     }
 
     .golden_ikura_num {
@@ -342,6 +393,23 @@ div {
 
       img {
         width: 2em;
+      }
+    }
+
+    @media (max-width: 1020px) {
+      thead {
+        p {
+          display: none;
+        }
+      }
+      .weapons {
+        display: none;
+      }
+    }
+
+    .links {
+      img {
+        width: 1.8em;
       }
     }
   }
