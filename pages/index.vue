@@ -1,7 +1,12 @@
 <template>
   <div class="page coop-overfishing">
     <header class="navigation-bar">
-      <h1>Salmon Run Records</h1>
+      <h1>
+        <nuxt-link to="/ocean">
+          <font-awesome-icon icon="tools" size="lg" class="oceancalc-button" />
+        </nuxt-link>
+        Salmon Run Records
+      </h1>
     </header>
     <div class="coop-overfishing-header">
       <h2><span>Salmon Run</span></h2>
@@ -416,6 +421,15 @@ div {
 
   .coop-overfishing-title {
     text-align: center;
+  }
+
+  a {
+    text-decoration: none;
+    color: #ddd;
+  }
+
+  .oceancalc-button {
+    cursor: pointer;
   }
 }
 </style>

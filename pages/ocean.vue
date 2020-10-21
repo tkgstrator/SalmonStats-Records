@@ -8,7 +8,10 @@
       <!-- <h3><span>LanPlay Records</span></h3> -->
     </div>
     <div id="content">
-      <input class="oceancalc-input-seed" @input="validate" v-model="mInitialSeed">
+      <div class="input-control">
+      <label>Initial Seed (Hex)</label>
+      <input class="oceancalc-input-seed" @input="validate" v-model="mInputSeed" maxlength="8">
+      </div>
       <ul class="oceancalc-option">
         <li @click="stage=0"><input type="radio" name="stage" :checked="stage==0"><label>Spawning Ground</label></li>
         <li @click="stage=1"><input type="radio" name="stage" :checked="stage==1"><label>Marooner's Bay</label></li>
@@ -200,12 +203,13 @@ class Random {
 export default {
   data: () => ({
     waves: [],
-    mInitialSeed: 0x5420,
+    mInitialSeed: 0x0,
+    mInputSeed: 0x0,
     stage: 0,
   }),
   created() {
     const mInitialSeed = this.$route.query.seed
-    if (!mInitialSeed.isEmpty)
+    if (!mInitialSeed == null)
       this.mInitialSeed = mInitialSeed
     this.generate()
   },
@@ -219,13 +223,15 @@ export default {
     },
     mInitialSeed: {
       handler: function (newValue, oldValue) {
+        // this.$route.query.seed = newValue
         this.generate()
       }
     }
   },
   methods: {
     validate() {
-      this.mInitialSeed = this.mInitialSeed.replace(/\[\0-9, a-f, z\]/g, '')
+      this.mInputSeed = this.mInputSeed.replace(/[^0-9, A-F, a-f]/g, "").toUpperCase()
+      this.mInitialSeed = parseInt("0x" + this.mInputSeed)
     },
     generate() {
       // まずは全要素を空っぽにする
@@ -448,7 +454,7 @@ div {
     h2 {
       position: relative;
       object-fit: cover;
-      background-image: url("https://tkgstrator.github.io/StarlightSeedHack/img/logo.c2fbc919.png");
+      background-image: url("~static/seedhack.png");
       background-repeat: no-repeat;
       background-size: contain;
       width: 300px;
@@ -636,7 +642,7 @@ div {
   .oceancalc-table {
     font-family: "Splatfont2";
     table-layout: fixed;
-    color: #fff;
+    color: #ddd;
     width: 100%;
     text-align: center;
   }
@@ -645,11 +651,43 @@ div {
     position: relative;
     display: block;
 
-    .oceancalc-input-seed {
+    .input-control {
+      width: 80%;
+      min-width: 400px;
+      text-align: center;
+      color: #fff;
       font-family: "Splatfont2";
-      font-size: 18px;
-      width: 50%;
-      max-width: 600px;
+
+      label {
+        font-size: 1.1em;
+        position: absolute;
+        transform: translateY(-18px) scale(0.75);
+        transform-origin: top left;
+      }
+
+      .oceancalc-input-seed {
+        width: 300px;
+        font-family: "Splatfont2";
+        color: #fff;
+        font-size: 1.25em;
+        padding: 4px 0 2px;
+        line-height: 1.2em;
+        background: none;
+        outline: none;
+        border-bottom: 2.5px solid #cccccc;
+        border-right: none;
+        border-left: none;
+        border-top: none;
+
+        &::after {
+          bottom: -1px;
+          content: "__";
+          left: 0;
+          position: absolute;
+          transition: 0.3s cubic-bezier(0.25, 0.8, 0.5, 1);
+          width: 100%;
+        }
+      }
     }
 
     .oceancalc-option {
