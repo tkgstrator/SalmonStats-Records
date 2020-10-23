@@ -89,7 +89,6 @@ class Ocean {
       case 1:
         switch (stage) {
           case 0:
-          case 2:
             mReuse = [true, true, true, true, true, true, true, true, true]
             mSucc = ["A", "B", "C", "D", "E", "F", "G", "H", "I"]
             break
@@ -97,7 +96,14 @@ class Ocean {
             mReuse = [true, true, true, true, true, true, true, true]
             mSucc = ["A", "B", "C", "D", "E", "F", "G", "H"]
             break
+          case 2:
+            mReuse = [true, true, true, true, true, true, true, true, true]
+            mSucc = ["A", "B", "C", "D", "E", "F", "G", "H", "I"]
+            break
           case 3:
+            mReuse = [true, true, true, true, true, true, true]
+            mSucc = ["A", "B", "C", "D", "E", "F", "G"]
+            break
           case 4:
             mReuse = [true, true, true, true, true, true, true]
             mSucc = ["A", "B", "C", "D", "E", "F", "G"]
@@ -111,12 +117,12 @@ class Ocean {
             mSucc = ["E", "F", "G", "H", "I"]
             break
           case 1:
-            mReuse = [false, true, true, true]
-            mSucc = ["E", "F", "G", "H"]
+            mReuse = [true, true, true, true]
+            mSucc = ["E", "F", "H", "G"]
             break
           case 2:
             mReuse = [false, true, true, true, true]
-            mSucc = ["E", "F", "G", "H", "I"]
+            mSucc = ["A", "B", "G", "H", "I"]
             break
           case 3:
             mReuse = [true, true, true, true, true]
@@ -288,7 +294,7 @@ export default {
             mEnemyArray[wave] = ocean[wave].getEnemyIds(wave)
             break
           case 2:
-            const tide = mWave.event[wave]
+            const tide = mWave.tide[wave]
             mEnemyArray[wave] = ocean[wave].getGeyserPos(this.stage, tide)
             break
           default:
