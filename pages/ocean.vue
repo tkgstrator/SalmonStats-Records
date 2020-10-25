@@ -706,8 +706,8 @@ div {
       display: inline-flex;
       font-family: "Splatfont2";
       font-size: 1.2em;
-      width: 90%;
-      max-width: 23em;
+      width: 100%;
+      max-width: 27em;
       list-style-type: none;
       flex-wrap: wrap;
       padding-bottom: 30px;
