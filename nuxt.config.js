@@ -25,7 +25,7 @@ export default {
 
   // Plugins to run before rendering page (https://go.nuxtjs.dev/config-plugins)
   plugins: [
-    '@/plugins/vuesax'
+    '@/plugins/vuesax',
   ],
 
   // Auto import components (https://go.nuxtjs.dev/config-components)
@@ -43,7 +43,8 @@ export default {
     '@nuxtjs/pwa',
     // https://go.nuxtjs.dev/content
     '@nuxt/content',
-    'nuxt-fontawesome'
+    'nuxt-fontawesome',
+    'nuxt-i18n'
   ],
 
   // Axios module configuration (https://go.nuxtjs.dev/config-axios)
@@ -52,6 +53,20 @@ export default {
   // Content module configuration (https://go.nuxtjs.dev/config-content)
   content: {},
 
+  i18n: {
+    locales: ['ja', 'en'],
+    defaultLocale: 'ja',
+    // Doc: https://kazupon.github.io/vue-i18n/api/#properties
+    vueI18n: {
+      fallbackLocale: 'en',
+      // silentTranslationWarn: true,
+      silentFallbackWarn: true,
+      messages: {
+        ja: require('./locales/ja.json'),
+        en: require('./locales/en.json')
+      }
+    }
+  },
   // Build Configuration (https://go.nuxtjs.dev/config-build)
   build: {
   },

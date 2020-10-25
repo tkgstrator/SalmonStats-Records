@@ -9,15 +9,16 @@
     </div>
     <div id="content">
       <div class="input-control">
-      <label>Initial Seed (Hex)</label>
+      <label>{{ $t(`initialseed`)}} {{ $t(`hex`)}}</label>
       <input class="oceancalc-input-seed" @input="validate" v-model="mInputSeed" maxlength="8">
       </div>
       <ul class="oceancalc-option">
-        <li @click="stage=0"><input type="radio" name="stage" :checked="stage==0"><label>Spawning Ground</label></li>
-        <li @click="stage=1"><input type="radio" name="stage" :checked="stage==1"><label>Marooner's Bay</label></li>
-        <li @click="stage=2"><input type="radio" name="stage" :checked="stage==2"><label>Lost Outpost</label></li>
-        <li @click="stage=3"><input type="radio" name="stage" :checked="stage==3"><label>Salmonid Smokeyard</label></li>
-        <li @click="stage=4"><input type="radio" name="stage" :checked="stage==4"><label>Ruins of Ark Polaris</label></li>
+        <template v-for="(name, idx) in ['shakeup', 'shakeship', 'shakehouse', 'shakelift', 'shakeride']">
+        <li @click="stage=idx" :key="name">
+          <input type="radio" name="stage" :checked="stage==idx">
+          <label>{{ $t(`stage.${name}`) }}</label>
+          </li>
+          </template>
       </ul>
       </div>
     <div class="coop-overfishing-list-wrapper">
@@ -31,11 +32,15 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="(cycle, index) in waves">
-              <td>{{ cycle.type }}</td>
+            <tr v-for="(cycle, index) in waves" :key="index">
+              <td>{{ $t(`${cycle.type}`) }}</td>
+              <td>{{ $t(`${cycle.wave1}`) }}</td>
+              <td>{{ $t(`${cycle.wave2}`) }}</td>
+              <td>{{ $t(`${cycle.wave3}`) }}</td>
+              <!-- <td>{{ cycle.type }}</td>
               <td>{{ cycle.wave1 }}</td>
               <td>{{ cycle.wave2 }}</td>
-              <td>{{ cycle.wave3 }}</td>
+              <td>{{ cycle.wave3 }}</td> -->
               </tr>
           </tbody>
         </table>
@@ -117,8 +122,8 @@ class Ocean {
             mSucc = ["E", "F", "G", "H", "I"]
             break
           case 1:
-            mReuse = [true, true, true, true]
-            mSucc = ["E", "F", "H", "G"]
+            mReuse = [true, false, true, true]
+            mSucc = ["E", "F", "G", "H"]
             break
           case 2:
             mReuse = [false, true, true, true, true]
@@ -152,8 +157,8 @@ class Ocean {
 
   // 出現するオオモノの種類を返す関数
   getEnemyId(mFlg) {
-    let mRareId = "-"
-    const mRareType = ["Steelhead", "Flyfish", "Scrapper", "Steel Eel", "Tower", "Maws", "Drizzler"] // オオモノテーブルだけどこれで合っているのかは謎
+    let mRareId = "none"
+    const mRareType = ["steelhead", "flyfish", "scrapper", "steeleel", "tower", "maws", "drizzler"] // オオモノテーブルだけどこれで合っているのかは謎
     let rnd = new Random()
     rnd.init(this.rnd.getU32())
     if (mFlg != 1)
@@ -166,14 +171,15 @@ class Ocean {
   }
 
   getEnemyIds(wave) {
-    const mRareType = ["Steelhead", "Flyfish", "Scrapper", "Steel Eel", "Tower", "Maws", "Drizzler"] // オオモノテーブルだけどこれで合っているのかは謎
+    const mRareType = ["steelhead", "flyfish", "scrapper", "steeleel", "tower", "maws", "drizzler"] // オオモノテーブルだけどこれで合っているのかは謎
+    // const mRareType = ["Steelhead", "Flyfish", "Scrapper", "Steel Eel", "Tower", "Maws", "Drizzler"] // オオモノテーブルだけどこれで合っているのかは謎
     let mRareArray = []
-    let mRareId = "-"
+    let mRareId = "none"
     mWaveArray[wave].forEach(mFlg => {
       let rnd = new Random() // オオモノ出現用乱数生成器
       rnd.init(this.rnd.getU32())
       if (mFlg != 1)
-        mRareArray.push("-")
+        mRareArray.push("none")
       else {
         for (let mProb = 0; mProb < mRareType.length; ++mProb) {
           if (!(parseInt((rnd.getU32() * (mProb + 1)) / Math.pow(2, 0x20))))
@@ -269,8 +275,8 @@ export default {
         }
       }
 
-      this.waves.push({ type: "Tide", wave1: tide(mWave.tide[0]), wave2: tide(mWave.tide[1]), wave3: tide(mWave.tide[2]) })
-      this.waves.push({ type: "Event", wave1: event(mWave.event[0]), wave2: event(mWave.event[1]), wave3: event(mWave.event[2]) })
+      this.waves.push({ type: "tide", wave1: tide(mWave.tide[0]), wave2: tide(mWave.tide[1]), wave3: tide(mWave.tide[2]) })
+      this.waves.push({ type: "event", wave1: event(mWave.event[0]), wave2: event(mWave.event[1]), wave3: event(mWave.event[2]) })
 
       grnd.init(this.mInitialSeed) // 初期シードでゲーム乱数生成器を初期化
       grnd.getU32() // 謎の一発乱数消費
@@ -315,30 +321,30 @@ export default {
 function tide(number) {
   switch (number) {
     case 0:
-      return "Low"
+      return "low"
     case 1:
-      return "Normal"
+      return "normal"
     case 2:
-      return "High"
+      return "high"
   }
 }
 
 function event(number) {
   switch (number) {
     case 0:
-      return "No Event"
+      return "noevent"
     case 1:
-      return "Rush"
+      return "rush"
     case 2:
-      return "Goldie Seeking"
+      return "goldie-seeking"
     case 3:
-      return "Griller"
+      return "the-griller"
     case 4:
-      return "The Mothership"
+      return "the-mothership"
     case 5:
-      return "Fog"
+      return "fog"
     case 6:
-      return "Cohock Charge"
+      return "cohock-charge"
     default:
       return
   }
@@ -700,8 +706,8 @@ div {
       display: inline-flex;
       font-family: "Splatfont2";
       font-size: 1.2em;
-      width: 100%;
-      max-width: 26em;
+      width: 90%;
+      max-width: 23em;
       list-style-type: none;
       flex-wrap: wrap;
       padding-bottom: 30px;
