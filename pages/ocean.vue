@@ -221,7 +221,8 @@ export default {
   }),
   created() {
     const mInitialSeed = this.$route.query.seed
-    if (!mInitialSeed == null)
+    console.log(mInitialSeed)
+    if (mInitialSeed != null)
       this.mInitialSeed = mInitialSeed
     this.generate()
   },

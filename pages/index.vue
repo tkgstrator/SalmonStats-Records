@@ -26,7 +26,27 @@ const EVENT_WORD = { 0: { ja: "", en: "No Event" }, 1: { ja: "", en: "Rush" }, 2
 const STAGE_WORD = { shakeup: { ja: "", en: "Spawning Grounds" }, shakeship: { ja: "", en: "Marooner's Bay" }, shakehouse: { ja: "", en: "Lost Outpost" }, shakelift: { ja: "", en: "Salmonid Smokeyard" }, shakeride: { ja: "", en: "Ruins of Ark Polaris" } }
 const BASE_WEAPON_URL = "https://app.splatoon2.nintendo.net/images/weapon/"
 const BASE_COOP_WEAPON_URL = "https://app.splatoon2.nintendo.net/images/coop_weapons/"
-const WEAPONS = { 0: "32d41a5d14de756c3e5a1ee97a9bd8fcb9e69bf5.png", 10: "91b6666bcbfccc204d86f21222a8db22a27d08d0.png", 20: "e5a97d52f12a83a037526588363021f2c1f718b0.png", 30: "c6ab7ebff7af7f7604eb53a12851da880b1ec2c7.png", 40: "e1d09fc9502a81c82137c8dcd5a872eb872af697.png", 50: "df04ddaf086cea94491df553a6d2550230a4da3c.png", 1020: "3d274190988ad20dd1b02825448edbb6e12c720c.png", 2010: "1ed94885bef2b0e498ed4dd76bea9064c85cfc94.png", 5000: "cc4bc30ff53bf2b45bd5e3dadceb39d52b95761f.png", 5010: "bb5caf24e43f8c7ceb126670bf24fd3aa9a3c3fc.png", 5020: "7d6032f0ceee14c4607385b848c6e486b84a2865.png", "5030": "aaead5ff0b63cdcb989b211d649b2552bb3e3a1b.png", 5040: "ba750d284eb067abdc995435c3358eed4e6f90fa.png", 20030: "c2c0653d3246ea6df2b595c68e907f68eda49b08.png" }
+const WEAPONS = {
+  0: "32d41a5d14de756c3e5a1ee97a9bd8fcb9e69bf5.png",
+  10: "91b6666bcbfccc204d86f21222a8db22a27d08d0.png",
+  20: "e5a97d52f12a83a037526588363021f2c1f718b0.png",
+  30: "c6ab7ebff7af7f7604eb53a12851da880b1ec2c7.png",
+  40: "e1d09fc9502a81c82137c8dcd5a872eb872af697.png",
+  50: "df04ddaf086cea94491df553a6d2550230a4da3c.png",
+  1020: "3d274190988ad20dd1b02825448edbb6e12c720c.png",
+  2010: "1ed94885bef2b0e498ed4dd76bea9064c85cfc94.png",
+  4030: "f208b6222acb5014ab96285e9b9a3e98039c884b.png",
+  5000: "cc4bc30ff53bf2b45bd5e3dadceb39d52b95761f.png",
+  5010: "bb5caf24e43f8c7ceb126670bf24fd3aa9a3c3fc.png",
+  5020: "7d6032f0ceee14c4607385b848c6e486b84a2865.png",
+  5030: "aaead5ff0b63cdcb989b211d649b2552bb3e3a1b.png",
+  5040: "ba750d284eb067abdc995435c3358eed4e6f90fa.png",
+  20000: "db39203d81d60a7370d3ae966bc02ed14398366f.png",
+  20010: "7d5ff3a57c3c3aaf28217bc3a79e02d665f13ba7.png",
+  20020: "95077fe72924bcd64f37cd43aa49a12cd6329a7e.png",
+  20030: "c2c0653d3246ea6df2b595c68e907f68eda49b08.png"
+}
+
 const url = "https://script.googleusercontent.com/macros/echo?user_content_key=ummdOBdAeKIIvWWalKMFmUeUGjzsB0NVpWdeYai1h1R0eB5u5dAHS3VFk_W8Q0O9IYxjHo5NeMPd7-ER5BG3d_69WarY2r8hm5_BxDlH2jW0nuo2oDemN9CCS2h10ox_1xSncGQajx_ryfhECjZEnNODCIGpCvTIG_y73l0eN6DXTL7am_LUGn2yZvQU_kJ211U6kHKox2FF9vc0kMk0UwA5oRoKKJbw&lib=MM2j9I9WqXTpiAIT5WzJb5jD0sxkqxnr0"
 let keys = ["wave", "shakeup", "shakeship", "shakehouse", "shakelift", "shakeride"]
 
