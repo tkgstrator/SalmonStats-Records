@@ -69,9 +69,9 @@ class Prob {
 }
 
 const mWaveArray = [
-  [-1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 0, 0, -1, -1, -1, -1], // 20
-  [-1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, -1, -1, 0, 0], // 22
-  [-1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 0, 0], // 24
+  [-2, 0, 1, 1, 0, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 0, 0, -1, -1, -1, -1], // 20
+  [-2, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 0, 0, -1, -1], // 22
+  [-2, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 0, 0], // 24
 ]
 
 class Ocean {
@@ -297,34 +297,32 @@ class Ocean {
     let mRareArray = []
     let mRareId = "none"
     mWaveArray[wave].forEach((mFlg, index) => {
-      if (mFlg != 1) {
-        if (wave == 0) {
-          if (index == 0) {
-            this.rnd.getU32() // 初期化するだけ
-            mRareArray.push("none")
-          }
-          if (index != 0) {
-            let mAppearId = this.getAppearId(index, -3)
-            this.mAppearId = mAppearId
-            mRareArray.push(mAppearId)
-          }
-          // console.log(index, mAppearId)
-          // mRareArray.push("none")
-          // console.log("AppearId", mAppearId)
-        }
-        else
+      switch (mFlg) {
+        case -2: // 一番最初の初期化は乱数だけ消費する
+          this.rnd.getU32()
           mRareArray.push("none")
-      }
-      else {
-        let rnd = new Random() // オオモノ出現用乱数生成器
-        const random = this.rnd.getU32()
-        // console.log("Enemy RNG", random.toString(16).toUpperCase(), this.rnd)
-        rnd.init(random) // WAVE乱数を一つ消費する
-        for (let mProb = 0; mProb < mRareType.length; ++mProb) {
-          if (!(parseInt((rnd.getU32() * (mProb + 1)) / Math.pow(2, 0x20))))
-            mRareId = mRareType[mProb]
-        }
-        mRareArray.push(mRareId)
+          break
+        case -1: // その他は何もせず無を出力
+          mRareArray.push("none")
+          break
+        case 0: // 0なら乱数を消費して湧き方向を変化させる
+          let mAppearId = this.getAppearId(index, -3)
+          this.mAppearId = mAppearId
+          mRareArray.push(mAppearId)
+          break;
+        case 1: // 1なら乱数を消費してオオモノを出現させる
+          let rnd = new Random() // オオモノ出現用乱数生成器
+          const random = this.rnd.getU32()
+          // console.log("Enemy RNG", random.toString(16).toUpperCase(), this.rnd)
+          rnd.init(random) // WAVE乱数を一つ消費する
+          for (let mProb = 0; mProb < mRareType.length; ++mProb) {
+            if (!(parseInt((rnd.getU32() * (mProb + 1)) / Math.pow(2, 0x20))))
+              mRareId = mRareType[mProb]
+          }
+          mRareArray.push(mRareId)
+          break;
+        default:
+          break;
       }
     })
     return mRareArray
