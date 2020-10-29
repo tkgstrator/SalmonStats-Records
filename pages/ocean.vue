@@ -176,7 +176,7 @@ class Ocean {
     return mRareId
   }
 
-  getAppearId(rnd, id) {
+  getAppearId(id) {
     let random = [0, 0]
     let v4 = 0
     let v5 = 0
@@ -218,35 +218,15 @@ class Ocean {
         v8 = parseInt((random[0] * v4) / Math.pow(2, 0x20))
         while (1) {
           v9 = v7[idx]
-          // if (v8)
-          //   v10 = v8 - 1 // 1以上なら1引いた値をv10に代入
-          // else
-          //   v10 = 0 // 0なら0を代入
-          // つまりこれはv10 = max(0, v8 - 1)と同じ
           v10 = Math.max(0, v8 - 1)
-          // if (v8)
-          //   v11 = id // 1か2だったらその値をv11に代入（負の数入ってるやん）
-          // else
-          //   v11 = v7[idx] // 違ったらv11にv7[idx]を代入
           v11 = v8 == 0 ? v7[idx] : id
-          // if (v9 != -1)
-          //   v12 = 5
-          // else
-          //   v12 = v8 == 0 ? 1 : 0
           v12 = v9 == -1 ? 5 : v8 == 0 ? 1 : 0
-          // if (v9 != -1)
-          //   v8 = LODWORD(v10)
-          // if (v9 != -1)
-          //   id = v11
           if (v9 != -1) {
             v8 = LODWORD(v10)
             id = v11
           }
-          console.log("RN->", random[0], "V12->", v12, "Index->", idx)
-          if ((v12 & 7) != 5 && v12 & 7) {
-            console.log("BREAK")
+          if ((v12 & 7) != 5 && v12 & 7)
             break
-          }
           --v6
           ++idx
           if (!v6)
@@ -264,7 +244,6 @@ class Ocean {
     idx = 0
 
     if (!(v5 & 0x80000000)) {
-      console.log("Case 1")
       if (!w6)
         return v5 // w6は常に3なのでここを満たすことはない
       w8 = w6 - 1 // これ、常に2が入っているのでは？
@@ -273,7 +252,7 @@ class Ocean {
         w9 = w7[idx]
         if (w7[idx] < v5)
           break
-        w6 -= parseInt(w9 == v5) // 0か1を引く
+        w6 -= (w9 == v5 ? 1 : 0) // 0か1を引く
         if (w9 == v5)
           break
         w8 = v17 - 1 // v17は常に2なので、これはw8に常に1を代入しているだけ
@@ -281,46 +260,30 @@ class Ocean {
       } while (v17)
       // w9はどんどん大きくなるから確実にBreakに入ると思うんですけど？
     }
-    console.log("RN->", random[1], "W6->", w6, "V5", v5)
+    console.log("2: W6->", w6, "V5", v5)
     if (w6 < 1)
       return v5 // ここでリターンすることもない
 
-    idx = 0
-    random[1] = rnd.getU32()
+    // その後の処理
+    idx = 0 // idxを初期化（多分増えているので）
+    // random[1] = this.rnd.getU32()
+    random[1] = 0
+    console.log("RN->", random[1].toString(16).toUpperCase())
     x6 = this.mAppearIdMax
     if (!x6)
       return v5 // ここでリターンすることはない
     x8 = parseInt((random[1] * x6) / Math.pow(2, 0x20))
     while (1) {
-      console.log("Case 2")
       x9 = x7[idx]
-      // if (x8)
-      //   x10 = x8 - 1
-      // else
-      //   x10 = 0
       x10 = Math.max(0, x8 - 1)
-      // if (x8)
-      //   x11 = id
-      // else
-      //   x11 = x7[idx]
       x11 = x8 == 0 ? x7[idx] : id
-      // if (x9 == v5)
-      //   x12 = 5
-      // else
-      //   x12 = x8 == 0
       x12 = x9 == v5 ? 5 : parseInt(x8 == 0)
-      // if (x9 != v5)
-      //   x8 = LODWORD(x10)
-      // if (x9 != v5)
-      //   id = x11
       if (x9 != v5) {
         x8 = LODWORD(x10)
         id = x11
       }
-      if ((x12 & 7) != 5 && x12 & 7) {
-        console.log("BREAK")
+      if ((x12 & 7) != 5 && x12 & 7)
         break
-      }
       --x6
       ++idx
       if (!x6)
@@ -336,21 +299,29 @@ class Ocean {
     let mRareArray = []
     let mRareId = "none"
     mWaveArray[wave].forEach((mFlg, index) => {
-      let rnd = new Random() // オオモノ出現用乱数生成器
-      rnd.init(this.rnd.getU32())
       if (mFlg != 1) {
-        let mAppearId = 0
-        if (index == 0)
-          mAppearId = this.getAppearId(rnd, -3)
+        if (wave == 0) {
+          if (index == 0) {
+            this.rnd.getU32() // 初期化するだけ
+            mRareArray.push("none")
+          }
+          if (index != 0) {
+            let mAppearId = this.getAppearId(-3)
+            this.mAppearId = mAppearId
+            mRareArray.push(mAppearId)
+          }
+          // console.log(index, mAppearId)
+          // mRareArray.push("none")
+          // console.log("AppearId", mAppearId)
+        }
         else
-          mAppearId = this.getAppearId(rnd, -3)
-        // console.log(index, mAppearId)
-        // mRareArray.push("none")
-        // console.log("AppearId", mAppearId)
-        this.mAppearId = mAppearId
-        mRareArray.push(mAppearId)
+          mRareArray.push("none")
       }
       else {
+        let rnd = new Random() // オオモノ出現用乱数生成器
+        const random = this.rnd.getU32()
+        // console.log("Enemy RNG", random.toString(16).toUpperCase(), this.rnd)
+        rnd.init(random) // WAVE乱数を一つ消費する
         for (let mProb = 0; mProb < mRareType.length; ++mProb) {
           if (!(parseInt((rnd.getU32() * (mProb + 1)) / Math.pow(2, 0x20))))
             mRareId = mRareType[mProb]
