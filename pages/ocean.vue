@@ -33,14 +33,18 @@
           </thead>
           <tbody>
             <tr v-for="(cycle, index) in waves" :key="index">
+              <template v-if="index < 2">
               <td>{{ $t(`${cycle.type}`) }}</td>
               <td>{{ $t(`${cycle.wave1}`) }}</td>
               <td>{{ $t(`${cycle.wave2}`) }}</td>
               <td>{{ $t(`${cycle.wave3}`) }}</td>
-              <!-- <td>{{ cycle.type }}</td>
-              <td>{{ cycle.wave1 }}</td>
-              <td>{{ cycle.wave2 }}</td>
-              <td>{{ cycle.wave3 }}</td> -->
+              </template>
+              <template v-if="index >= 2">
+              <td>{{ cycle.type }}</td>
+              <td>{{ $t(`${cycle.wave1}`) }}</td>
+              <td>{{ $t(`${cycle.wave2}`) }}</td>
+              <td>{{ $t(`${cycle.wave3}`) }}</td>
+              </template>
               </tr>
           </tbody>
         </table>
@@ -74,6 +78,8 @@ class Ocean {
   constructor() {
     // this.rnd = new Random() // 乱数生成器
     // this.seed = 0 // Oceanクラスの初期シード
+    this.mAppearId = 1
+    this.mAppearIdMax = 3
   }
 
   // ゲームシードを読み込み
@@ -170,16 +176,180 @@ class Ocean {
     return mRareId
   }
 
+  getAppearId(rnd, id) {
+    let random = [0, 0]
+    let v4 = 0
+    let v5 = 0
+    let v6 = 0
+    let w6 = 0
+    let x6 = 0
+    let v7 = [1, 2, 3]
+    let w7 = [1, 2, 3]
+    let x7 = [1, 2, 3]
+    let v8 = 0
+    let w8 = 0
+    let x8 = 0
+    let v9 = 0 // v7の値を保存しておく
+    let w9 = 0 // w7の値を保存しておく
+    let x9 = 0
+    let v10 = 0
+    let x10 = 0
+    let v11 = 0
+    let x11 = 0
+    let v12 = 0
+    let x12 = 0
+    let v17 = 0
+    let idx = 0 // v7のポインタみたいなやつ
+    let result = 0 // リターンする値（引数は変更できないんだが、クソか？
+
+    // id == -1, -2のときだけここに入る
+    if (id != -3) {
+      if (id == -2)
+        id = this.mAppearId // this.mAppearIdは-1で初期化されているので-1が返る
+      else if (id == -1) {
+        console.log("Initialize mAppearId")
+        v4 = this.mAppearIdMax
+        if (v4 < 1)
+          return -1 // 恐らくここでリターンすることはない
+        random[0] = rnd.getU32()
+        v6 = this.mAppearIdMax
+        if (!v6)
+          return -1 // ここでリターンすることもなさそう
+        v8 = parseInt((random[0] * v4) / Math.pow(2, 0x20))
+        while (1) {
+          v9 = v7[idx]
+          // if (v8)
+          //   v10 = v8 - 1 // 1以上なら1引いた値をv10に代入
+          // else
+          //   v10 = 0 // 0なら0を代入
+          // つまりこれはv10 = max(0, v8 - 1)と同じ
+          v10 = Math.max(0, v8 - 1)
+          // if (v8)
+          //   v11 = id // 1か2だったらその値をv11に代入（負の数入ってるやん）
+          // else
+          //   v11 = v7[idx] // 違ったらv11にv7[idx]を代入
+          v11 = v8 == 0 ? v7[idx] : id
+          // if (v9 != -1)
+          //   v12 = 5
+          // else
+          //   v12 = v8 == 0 ? 1 : 0
+          v12 = v9 == -1 ? 5 : v8 == 0 ? 1 : 0
+          // if (v9 != -1)
+          //   v8 = LODWORD(v10)
+          // if (v9 != -1)
+          //   id = v11
+          if (v9 != -1) {
+            v8 = LODWORD(v10)
+            id = v11
+          }
+          console.log("RN->", random[0], "V12->", v12, "Index->", idx)
+          if ((v12 & 7) != 5 && v12 & 7) {
+            console.log("BREAK")
+            break
+          }
+          --v6
+          ++idx
+          if (!v6)
+            return -1 // v6 == 0になったら-1を返す
+        }
+        if (!v12)
+          return -1
+      }
+      return id
+    }
+    // 恐らくこちらしか使われないと考えて良い
+
+    v5 = this.mAppearId
+    w6 = this.mAppearIdMax
+    idx = 0
+
+    if (!(v5 & 0x80000000)) {
+      console.log("Case 1")
+      if (!w6)
+        return v5 // w6は常に3なのでここを満たすことはない
+      w8 = w6 - 1 // これ、常に2が入っているのでは？
+      do {
+        v17 = w8 // これ、毎回v17を2で初期化してるだけでは？
+        w9 = w7[idx]
+        if (w7[idx] < v5)
+          break
+        w6 -= parseInt(w9 == v5) // 0か1を引く
+        if (w9 == v5)
+          break
+        w8 = v17 - 1 // v17は常に2なので、これはw8に常に1を代入しているだけ
+        ++idx
+      } while (v17)
+      // w9はどんどん大きくなるから確実にBreakに入ると思うんですけど？
+    }
+    console.log("RN->", random[1], "W6->", w6, "V5", v5)
+    if (w6 < 1)
+      return v5 // ここでリターンすることもない
+
+    idx = 0
+    random[1] = rnd.getU32()
+    x6 = this.mAppearIdMax
+    if (!x6)
+      return v5 // ここでリターンすることはない
+    x8 = parseInt((random[1] * x6) / Math.pow(2, 0x20))
+    while (1) {
+      console.log("Case 2")
+      x9 = x7[idx]
+      // if (x8)
+      //   x10 = x8 - 1
+      // else
+      //   x10 = 0
+      x10 = Math.max(0, x8 - 1)
+      // if (x8)
+      //   x11 = id
+      // else
+      //   x11 = x7[idx]
+      x11 = x8 == 0 ? x7[idx] : id
+      // if (x9 == v5)
+      //   x12 = 5
+      // else
+      //   x12 = x8 == 0
+      x12 = x9 == v5 ? 5 : parseInt(x8 == 0)
+      // if (x9 != v5)
+      //   x8 = LODWORD(x10)
+      // if (x9 != v5)
+      //   id = x11
+      if (x9 != v5) {
+        x8 = LODWORD(x10)
+        id = x11
+      }
+      if ((x12 & 7) != 5 && x12 & 7) {
+        console.log("BREAK")
+        break
+      }
+      --x6
+      ++idx
+      if (!x6)
+        return v5 // 前と同じ値を返す
+    }
+    if (!x12)
+      return v5
+    return id
+  }
+
   getEnemyIds(wave) {
     const mRareType = ["steelhead", "flyfish", "scrapper", "steeleel", "tower", "maws", "drizzler"] // オオモノテーブルだけどこれで合っているのかは謎
-    // const mRareType = ["Steelhead", "Flyfish", "Scrapper", "Steel Eel", "Tower", "Maws", "Drizzler"] // オオモノテーブルだけどこれで合っているのかは謎
     let mRareArray = []
     let mRareId = "none"
-    mWaveArray[wave].forEach(mFlg => {
+    mWaveArray[wave].forEach((mFlg, index) => {
       let rnd = new Random() // オオモノ出現用乱数生成器
       rnd.init(this.rnd.getU32())
-      if (mFlg != 1)
-        mRareArray.push("none")
+      if (mFlg != 1) {
+        let mAppearId = 0
+        if (index == 0)
+          mAppearId = this.getAppearId(rnd, -3)
+        else
+          mAppearId = this.getAppearId(rnd, -3)
+        // console.log(index, mAppearId)
+        // mRareArray.push("none")
+        // console.log("AppearId", mAppearId)
+        this.mAppearId = mAppearId
+        mRareArray.push(mAppearId)
+      }
       else {
         for (let mProb = 0; mProb < mRareType.length; ++mProb) {
           if (!(parseInt((rnd.getU32() * (mProb + 1)) / Math.pow(2, 0x20))))
@@ -221,7 +391,6 @@ export default {
   }),
   created() {
     const mInitialSeed = this.$route.query.seed
-    console.log(mInitialSeed)
     if (mInitialSeed != null)
       this.mInitialSeed = mInitialSeed
     this.generate()
@@ -354,6 +523,10 @@ function event(number) {
 function swap(array, x, y) {
   array[x] = [array[y], array[y] = array[x]][0];
   return array;
+}
+
+function LODWORD(x) {
+  return (x & 0xFFFFFFFF)
 }
 </script>
 
