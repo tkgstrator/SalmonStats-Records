@@ -176,7 +176,7 @@ class Ocean {
     return mRareId
   }
 
-  getAppearId(id) {
+  getAppearId(index, id) {
     let random = [0, 0]
     let v4 = 0
     let v5 = 0
@@ -239,7 +239,7 @@ class Ocean {
     }
     // 恐らくこちらしか使われないと考えて良い
 
-    v5 = this.mAppearId
+    v5 = this.mAppearId // 前使っていた値を利用する（乱数消費前に
     w6 = this.mAppearIdMax
     idx = 0
 
@@ -260,24 +260,22 @@ class Ocean {
       } while (v17)
       // w9はどんどん大きくなるから確実にBreakに入ると思うんですけど？
     }
-    console.log("2: W6->", w6, "V5", v5)
     if (w6 < 1)
       return v5 // ここでリターンすることもない
 
-    // その後の処理
+    // 第一段階の計算が終わる
     idx = 0 // idxを初期化（多分増えているので）
-    // random[1] = this.rnd.getU32()
-    random[1] = 0
-    console.log("RN->", random[1].toString(16).toUpperCase())
+    random[1] = this.rnd.getU32()
+    console.log("RN->", random[1].toString(16).toUpperCase(), "(", index, ") : W6->", w6, "V5->", v5)
     x6 = this.mAppearIdMax
     if (!x6)
       return v5 // ここでリターンすることはない
-    x8 = parseInt((random[1] * x6) / Math.pow(2, 0x20))
+    x8 = parseInt((random[1] * w6) / Math.pow(2, 0x20))
     while (1) {
       x9 = x7[idx]
       x10 = Math.max(0, x8 - 1)
       x11 = x8 == 0 ? x7[idx] : id
-      x12 = x9 == v5 ? 5 : parseInt(x8 == 0)
+      x12 = x9 == v5 ? 5 : x8 == 0 ? 1 : 0
       if (x9 != v5) {
         x8 = LODWORD(x10)
         id = x11
@@ -306,7 +304,7 @@ class Ocean {
             mRareArray.push("none")
           }
           if (index != 0) {
-            let mAppearId = this.getAppearId(-3)
+            let mAppearId = this.getAppearId(index, -3)
             this.mAppearId = mAppearId
             mRareArray.push(mAppearId)
           }
