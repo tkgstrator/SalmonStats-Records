@@ -292,7 +292,7 @@ class Ocean {
     return id
   }
 
-  getEnemyIds(wave) {
+  getEnemyIds(wave, event) {
     const mRareType = ["steelhead", "flyfish", "scrapper", "steeleel", "tower", "maws", "drizzler"] // オオモノテーブルだけどこれで合っているのかは謎
     let mRareArray = []
     let mRareId = "none"
@@ -313,15 +313,20 @@ class Ocean {
           mRareArray.push(mAppearId)
           break;
         case 1: // 1なら乱数を消費してオオモノを出現させる
-          let rnd = new Random() // オオモノ出現用乱数生成器
-          const random = this.rnd.getU32()
-          // console.log("Enemy RNG", random.toString(16).toUpperCase(), this.rnd)
-          rnd.init(random) // WAVE乱数を一つ消費する
-          for (let mProb = 0; mProb < mRareType.length; ++mProb) {
-            if (!(parseInt((rnd.getU32() * (mProb + 1)) / Math.pow(2, 0x20))))
-              mRareId = mRareType[mProb]
+          if (event != 1 && event != 3) {
+            let rnd = new Random() // オオモノ出現用乱数生成器
+            const random = this.rnd.getU32()
+            // console.log("Enemy RNG", random.toString(16).toUpperCase(), this.rnd)
+            rnd.init(random) // WAVE乱数を一つ消費する
+            for (let mProb = 0; mProb < mRareType.length; ++mProb) {
+              if (!(parseInt((rnd.getU32() * (mProb + 1)) / Math.pow(2, 0x20))))
+                mRareId = mRareType[mProb]
+            }
+            mRareArray.push(mRareId)
           }
-          mRareArray.push(mRareId)
+          else
+            mRareArray.push("none")
+
           break;
         default:
           break;
@@ -432,24 +437,37 @@ export default {
       let mEnemyArray = [[], [], []]
 
       for (let wave = 0; wave < 3; ++wave) {
-        switch (mWave.event[wave]) {
-          case 0:
-          case 5:
-          case 6:
-            mEnemyArray[wave] = ocean[wave].getEnemyIds(wave)
-            break
-          case 2:
-            const tide = mWave.tide[wave]
-            mEnemyArray[wave] = ocean[wave].getGeyserPos(this.stage, tide)
-            break
-          default:
-            let tmpArray = Array(35)
-            tmpArray.fill("-")
-            mEnemyArray[wave] = tmpArray
-            break
+        const event = mWave.event[wave]
+        if (event == 2) {
+          const tide = mWave.tide[wave]
+          mEnemyArray[wave] = ocean[wave].getGeyserPos(this.stage, tide)
         }
+        else {
+          mEnemyArray[wave] = ocean[wave].getEnemyIds(wave, event)
+        }
+        // switch (mWave.event[wave]) {
+
+        // case 0: // イベントなし
+        // case 5: // 霧
+        // case 6: // ドスコイ大量発生
+        //   mEnemyArray[wave] = ocean[wave].getEnemyIds(wave)
+        //   break
+        // case 2: // キンシャケ探し
+        //   const tide = mWave.tide[wave]
+        //   mEnemyArray[wave] = ocean[wave].getGeyserPos(this.stage, tide)
+        //   break
+        // case 1: // ラッシュ
+        //   break
+        // case 3: // グリル発進
+        //   break
+        // default:
+        //   let tmpArray = Array(35)
+        //   tmpArray.fill("-")
+        //   mEnemyArray[wave] = tmpArray
+        //   break
+        // }
       }
-      console.log(mEnemyArray)
+      // console.log(mEnemyArray)
       for (let idx = 0; idx < 35; ++idx) {
         this.waves.push({ type: `${idx + 1}`, wave1: mEnemyArray[0][idx], wave2: mEnemyArray[1][idx], wave3: mEnemyArray[2][idx] })
       }
