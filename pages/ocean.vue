@@ -78,7 +78,7 @@ class Ocean {
   constructor() {
     // this.rnd = new Random() // 乱数生成器
     // this.seed = 0 // Oceanクラスの初期シード
-    this.mAppearId = 1
+    this.mAppearId = -1
     this.mAppearIdMax = 3
   }
 
@@ -299,7 +299,9 @@ class Ocean {
     mWaveArray[wave].forEach((mFlg, index) => {
       switch (mFlg) {
         case -2: // 一番最初の初期化は乱数だけ消費する
-          this.rnd.getU32()
+          // this.rnd.getU32()
+          this.mAppearId = this.getAppearId(index, -3)
+          // mRareArray.push(this.mAppearId)
           mRareArray.push("none")
           break
         case -1: // その他は何もせず無を出力
