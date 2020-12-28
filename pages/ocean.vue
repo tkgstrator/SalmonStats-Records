@@ -439,6 +439,7 @@ export default {
       mGameSeed.push(grnd.getU32())
       mGameSeed.push(grnd.getU32())
 
+      this.waves.push({ type: "mWaveSeed", wave1: mGameSeed[0], wave2: mGameSeed[1], wave3: mGameSeed[2]})
       // // 全WAVEを計算する
       let ocean = [new Ocean(), new Ocean(), new Ocean()]
       ocean[0].init(mGameSeed[0])
