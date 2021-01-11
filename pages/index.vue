@@ -181,6 +181,7 @@ export default {
           links.className = "links"
           img.src = "https://gungeespla.github.io/salmon_run_records/assets/img/link-video.png"
           video.href = link
+          video.target = "_blank"
           video.appendChild(img)
           links.appendChild(video)
           td.appendChild(links)
