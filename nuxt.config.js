@@ -1,6 +1,10 @@
+import { faUniversalAccess } from '@fortawesome/free-solid-svg-icons';
+
 export default {
   // Disable server-side rendering (https://go.nuxtjs.dev/ssr-mode)
+  mode: 'universal',
   ssr: false,
+
 
   // Target (https://go.nuxtjs.dev/config-target)
   target: 'static',
@@ -9,9 +13,30 @@ export default {
   head: {
     title: 'LanPlay Records',
     meta: [
-      { charset: 'utf-8' },
-      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: '' }
+      { hid: 'twitter:card', name: 'twitter:card', content: 'large' },
+      { hid: 'twitter:site', name: 'twitter:site', content: 'tkgling' },
+      { hid: 'og:type', property: 'og:type', content: 'website' },
+      {
+        hid: 'og:title',
+        property: 'og:title',
+        content: 'LanPlay Records'
+      },
+      {
+        hid: 'og:url',
+        property: 'og:url',
+        content: 'https://salmonrun-records.netlify.app/'
+      },
+      {
+        hid: 'og:description',
+        property: 'og:description',
+        content: 'The records of Salmon Run on LanPlay'
+      },
+      {
+        hid: 'og:image',
+        property: 'og:image',
+        content: 'https://app.splatoon2.nintendo.net/images/bundled/3aa6fb4ec1534196ede450667c1183dc.png'
+      },
+      { hid: 'og:site_name', name: 'og:site_name', contents: 'LanPlay Records' }
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
