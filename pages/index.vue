@@ -19,6 +19,8 @@
 </template>
 
 <script>
+import records from "@/assets/json/lanplay.json"
+
 const BASE_STAGE_URL = "https://app.splatoon2.nintendo.net/images/coop_stage/"
 const STAGE_URL = { shakeup: "65c68c6f0641cc5654434b78a6f10b0ad32ccdee.png", shakeship: "e07d73b7d9f0c64e552b34a2e6c29b8564c63388.png", shakehouse: "6d68f5baa75f3a94e5e9bfb89b82e7377e3ecd2c.png", shakelift: "e9f7c7b35e6d46778cd3cbc0d89bd7e1bc3be493.png", shakeride: "50064ec6e97aac91e70df5fc2cfecf61ad8615fd.png" }
 const WATER_WORD = { 0: { ja: "干潮", en: "LT" }, 1: { ja: "通常", en: "NT" }, 2: { ja: "満潮", en: "HT" } }
@@ -84,14 +86,17 @@ const WEAPONS = {
   20030: "c2c0653d3246ea6df2b595c68e907f68eda49b08.png"
 }
 
-const url = "https://script.googleusercontent.com/macros/echo?user_content_key=ummdOBdAeKIIvWWalKMFmUeUGjzsB0NVpWdeYai1h1R0eB5u5dAHS3VFk_W8Q0O9IYxjHo5NeMPd7-ER5BG3d_69WarY2r8hm5_BxDlH2jW0nuo2oDemN9CCS2h10ox_1xSncGQajx_ryfhECjZEnNODCIGpCvTIG_y73l0eN6DXTL7am_LUGn2yZvQU_kJ211U6kHKox2FF9vc0kMk0UwA5oRoKKJbw&lib=MM2j9I9WqXTpiAIT5WzJb5jD0sxkqxnr0"
+// const url = // ローカルファイルに切り替え
+// const url = "https://script.googleusercontent.com/macros/echo?user_content_key=ummdOBdAeKIIvWWalKMFmUeUGjzsB0NVpWdeYai1h1R0eB5u5dAHS3VFk_W8Q0O9IYxjHo5NeMPd7-ER5BG3d_69WarY2r8hm5_BxDlH2jW0nuo2oDemN9CCS2h10ox_1xSncGQajx_ryfhECjZEnNODCIGpCvTIG_y73l0eN6DXTL7am_LUGn2yZvQU_kJ211U6kHKox2FF9vc0kMk0UwA5oRoKKJbw&lib=MM2j9I9WqXTpiAIT5WzJb5jD0sxkqxnr0"
 let keys = ["wave", "shakeup", "shakeship", "shakehouse", "shakelift", "shakeride"]
 
 export default {
+  data() {
+    return {
+      records: records
+    }
+  },
   async mounted() {
-    const response = await fetch(url)
-    let json = await response.json()
-
     // テーブルを作成する
     var table = document.createElement("table")
     // ヘッダーを作成する
@@ -115,7 +120,7 @@ export default {
     // ステージごとにデータを整形
     let data = []
     for (let id = 0; id <= 4; id++) {
-      let value = json.filter(function (item) {
+      let value = this.records.filter(function (item) {
         return item["stage_id"] == id
       })
       data.push(value)
