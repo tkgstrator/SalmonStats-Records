@@ -304,37 +304,57 @@ class Ocean {
     const mRareType = ["steelhead", "flyfish", "scrapper", "steeleel", "tower", "maws", "drizzler"] // オオモノテーブルだけどこれで合っているのかは謎
     let mRareArray = []
     let mRareId = "none"
+    let mCount = 0
     mWaveArray[wave].forEach((mFlg, index) => {
       switch (mFlg) {
         case -2: // 一番最初の初期化は乱数だけ消費する
-          // this.rnd.getU32()
-          this.mAppearId = this.getAppearId(index, -3)
-          // mRareArray.push(this.mAppearId)
-          mRareArray.push("none")
+          if (event != 4) {
+            this.mAppearId = this.getAppearId(index, -3)
+            mRareArray.push("none")
+          } else {
+            mRareArray.push("none")
+          }
           break
         case -1: // その他は何もせず無を出力
           mRareArray.push("none")
           break
         case 0: // 0なら乱数を消費して湧き方向を変化させる
-          let mAppearId = this.getAppearId(index, -3)
-          this.mAppearId = mAppearId
-          mRareArray.push(mAppearId)
+          if (event != 4) {
+            let mAppearId = this.getAppearId(index, -3)
+            this.mAppearId = mAppearId
+            mRareArray.push(mAppearId)
+          } else {
+            mRareArray.push("none")
+          }
           break;
         case 1: // 1なら乱数を消費してオオモノを出現させる
-          if (event != 1 && event != 3) {
-            let rnd = new Random() // オオモノ出現用乱数生成器
-            const random = this.rnd.getU32()
-            // console.log("Enemy RNG", random.toString(16).toUpperCase(), this.rnd)
-            rnd.init(random) // WAVE乱数を一つ消費する
-            for (let mProb = 0; mProb < mRareType.length; ++mProb) {
-              if (!(parseInt((rnd.getU32() * (mProb + 1)) / Math.pow(2, 0x20))))
-                mRareId = mRareType[mProb]
-            }
-            mRareArray.push(mRareId)
+          switch (event) {
+            case 1:
+              mRareArray.push("none")
+              break
+            case 3:
+              mRareArray.push("none")
+              break
+            case 4:
+              mRareArray.push("none")
+              break
+            case 5:
+              mCount++
+              // 5の倍数のときはキンシャケを出現してリターン
+              if (mCount % 5 == 0) {
+                mRareArray.push("goldie")
+                break
+              }
+            default:
+              let rnd = new Random() // オオモノ出現用乱数生成器
+              const random = this.rnd.getU32()
+              rnd.init(random) // WAVE乱数で初期化する
+              for (let mProb = 0; mProb < mRareType.length; ++mProb) {
+                if (!(parseInt((rnd.getU32() * (mProb + 1)) / Math.pow(2, 0x20))))
+                  mRareId = mRareType[mProb]
+              }
+              mRareArray.push(mRareId)
           }
-          else
-            mRareArray.push("none")
-
           break;
         default:
           break;
