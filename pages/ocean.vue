@@ -305,6 +305,7 @@ class Ocean {
     let mRareArray = []
     let mRareId = "none"
     let mCount = 0
+    let mGoldieCount = 0
     mWaveArray[wave].forEach((mFlg, index) => {
       switch (mFlg) {
         case -2: // 一番最初の初期化は乱数だけ消費する
@@ -343,6 +344,8 @@ class Ocean {
               // 5の倍数のときはキンシャケを出現してリターン
               if (mCount % 5 == 0) {
                 mRareArray.push("goldie")
+                mGoldieCount += 1
+                this.rnd.getU32()
                 break
               }
             default:
