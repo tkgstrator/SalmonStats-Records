@@ -148,7 +148,7 @@ class Ocean {
               ["A", "D", "F", "G"],
               ["B", "G", "H", "I"],
               ["B", "D", "F", "I"],
-              ["B", "E", "F", "I"]
+              ["B", "E", "F", "I"],
               ["C", "D", "F", "G"]
             ]
             break
@@ -249,12 +249,11 @@ class Ocean {
       }
       if (mReuse[0]) {
         let index = parseInt((this.rnd.getU32() * mDest[0].length) / Math.pow(2, 0x20))  // ゴール位置決定用に一回使う
-        mPosition += (mSucc[0] + mDest[0][index])
-        console.log("REUSE", mPosition)
+        mPosition.push(mSucc[0] + ", " + mDest[0][index])
       }
       else {
-        mPosition += (mSucc[0] + mDest[0][0])
-        console.log("DONT REUSE", mPosition)
+        mPosition.push(mSucc[0] + ", " + mDest[0][index])
+        // mPosition += (mSucc[0] + mDest[0][0])
       }
     }
     return mPosition
@@ -306,7 +305,7 @@ class Ocean {
       if (id == -2)
         id = this.mAppearId // this.mAppearIdは-1で初期化されているので-1が返る
       else if (id == -1) {
-        console.log("Initialize mAppearId")
+        // console.log("Initialize mAppearId")
         v4 = this.mAppearIdMax
         if (v4 < 1)
           return -1 // 恐らくここでリターンすることはない
@@ -530,7 +529,7 @@ export default {
             continue;
           sum += mProb.event[event]
           let random = grnd.getU32()
-          console.log("Random Number->", random.toString(16))
+          // console.log("Random Number->", random.toString(16))
           if ((random * sum / Math.pow(2, 32)) < mProb.event[event])
             mWave.event[wave] = event
         }
@@ -539,7 +538,7 @@ export default {
             continue;
           sum += mProb.tide[tide];
           let random = grnd.getU32()
-          console.log("Random Number->", random.toString(16))
+          // console.log("Random Number->", random.toString(16))
           if ((random * sum / Math.pow(2, 32)) < mProb.tide[tide])
             mWave.event[wave] == 6 ? mWave.tide[wave] = 0 : mWave.tide[wave] = tide
         }
@@ -568,9 +567,11 @@ export default {
         if (event == 2) {
           const tide = mWave.tide[wave]
           mEnemyArray[wave] = ocean[wave].getGeyserPos(this.stage, tide)
+          // console.log("WAVE", wave, mEnemyArray[wave])
         }
         else {
           mEnemyArray[wave] = ocean[wave].getEnemyIds(wave, event)
+          // console.log("WAVE", wave, mEnemyArray[wave])
         }
       }
       // console.log(mEnemyArray)
