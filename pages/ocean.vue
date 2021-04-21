@@ -102,6 +102,7 @@ class Ocean {
   getGeyserPos(stage, tide) {
     let mReuse = [] // 乱数を再利用するかどうか
     let mSucc = [] // カンケツセンの位置をシャッフルする
+    let mDest = [] // カンケツセンのゴール位置
     let mPosition = [] // アタリ位置を出力する
 
     switch (tide) {
@@ -110,22 +111,72 @@ class Ocean {
           case 0:
             mReuse = [true, true, true, true, true, true, true, true, true]
             mSucc = ["A", "B", "C", "D", "E", "F", "G", "H", "I"]
+            mDest = [
+              ["C", "D", "F", "G"], 
+              ["C", "E", "F", "I"], 
+              ["D", "G", "E", "H"], 
+              ["A", "C"], 
+              ["C", "H"],
+              ["B", "G", "H"],
+              ["A", "C", "F"],
+              ["C", "E", "F", "I"],
+              ["A", "B", "H"]
+            ]
             break
           case 1:
             mReuse = [true, true, true, true, true, true, true, true]
             mSucc = ["A", "B", "C", "D", "E", "F", "G", "H"]
+            mDest = [
+              ["E", "F"],
+              ["E", "F"],
+              ["E", "F"],
+              ["E", "F"],
+              ["E", "F"],
+              ["E", "F"],
+              ["E", "F"],
+              ["E", "F"]
+            ]
             break
           case 2:
             mReuse = [true, true, true, true, true, true, true, true, true]
             mSucc = ["A", "B", "C", "D", "E", "F", "G", "H", "I"]
+            mDest = [
+              ["C", "E"],
+              ["C", "D", "F", "H"],
+              ["A", "D", "F", "I"],
+              ["B", "C", "G", "I"],
+              ["A", "D", "F", "G"],
+              ["B", "G", "H", "I"],
+              ["B", "D", "F", "I"],
+              ["B", "E", "F", "I"]
+              ["C", "D", "F", "G"]
+            ]
             break
           case 3:
             mReuse = [true, true, true, true, true, true, true]
             mSucc = ["A", "B", "C", "D", "E", "F", "G"]
+            mDest = [
+              ["B", "C", "F", "G"],
+              ["A", "D", "E"],
+              ["A", "E", "F", "G"],
+              ["B", "F", "G"],
+              ["B", "C"],
+              ["A", "D"],
+              ["A", "C", "D"]
+            ]
             break
           case 4:
             mReuse = [true, true, true, true, true, true, true]
             mSucc = ["A", "B", "C", "D", "E", "F", "G"]
+            mDest = [
+              ["-"],
+              ["-"],
+              ["-"],
+              ["-"],
+              ["-"],
+              ["-"],
+              ["-"]
+            ]
             break
         }
         break
@@ -134,22 +185,55 @@ class Ocean {
           case 0:
             mReuse = [true, true, true, true, true]
             mSucc = ["E", "F", "G", "H", "I"]
+            mDest = [
+              ["H", "H"],
+              ["G", "H"],
+              ["F", "F"],
+              ["I", "F"],
+              ["H", "G"]
+            ]
             break
           case 1:
             mReuse = [true, false, true, true]
             mSucc = ["E", "F", "G", "H"]
+            mDest = [
+              ["-"],
+              ["-"],
+              ["-"],
+              ["-"],
+            ]
             break
           case 2:
             mReuse = [false, true, true, true, true]
             mSucc = ["A", "B", "G", "H", "I"]
+            mDest = [
+              ["H", "H"],
+              ["G", "H"],
+              ["I", "F"],
+              ["I", "F"],
+              ["G", "H"]
+            ]
             break
           case 3:
             mReuse = [true, true, true, true, true]
             mSucc = ["C", "D", "E", "F", "G"]
+            mDest = [
+              ["G", "E"],
+              ["F", "G"],
+              ["C", "C"],
+              ["D", "D"],
+              ["D", "C"]
+            ]
             break
           case 4:
             mReuse = [false, false, false, false]
             mSucc = ["D", "E", "F", "G"]
+            mDest = [
+              ["G"],
+              ["F"],
+              ["G"],
+              ["F"]
+            ]
             break
         }
         break
@@ -161,10 +245,17 @@ class Ocean {
         let index = parseInt((this.rnd.getU32() * (sel + 1)) / Math.pow(2, 0x20))
         swap(mSucc, index, sel)
         swap(mReuse, index, sel)
+        swap(mDest, index, sel)
       }
-      mPosition += mSucc[0]
-      if (mReuse[0])
-        this.rnd.getU32() // ゴール位置決定用に一回使う
+      if (mReuse[0]) {
+        let index = parseInt((this.rnd.getU32() * mDest[0].length) / Math.pow(2, 0x20))  // ゴール位置決定用に一回使う
+        mPosition += (mSucc[0] + mDest[0][index])
+        console.log("REUSE", mPosition)
+      }
+      else {
+        mPosition += (mSucc[0] + mDest[0][0])
+        console.log("DONT REUSE", mPosition)
+      }
     }
     return mPosition
   }
