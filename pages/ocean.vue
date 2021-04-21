@@ -252,7 +252,7 @@ class Ocean {
         mPosition.push(mSucc[0] + ", " + mDest[0][index])
       }
       else {
-        mPosition.push(mSucc[0] + ", " + mDest[0][index])
+        mPosition.push(mSucc[0] + ", " + mDest[0][0])
         // mPosition += (mSucc[0] + mDest[0][0])
       }
     }
@@ -571,7 +571,7 @@ export default {
         }
         else {
           mEnemyArray[wave] = ocean[wave].getEnemyIds(wave, event)
-          // console.log("WAVE", wave, mEnemyArray[wave])
+          // t console.log("WAVE", wave, mEnemyArray[wave])
         }
       }
       // console.log(mEnemyArray)
