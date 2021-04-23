@@ -1,4 +1,4 @@
-<template>
+t pu<template>
   <div class="page oceancalc">
     <header class="navigation-bar">
       <h1>
@@ -169,10 +169,10 @@ class Ocean {
             mReuse = [true, true, true, true, true, true, true]
             mSucc = ["A", "B", "C", "D", "E", "F", "G"]
             mDest = [
+              ["1", "2"],
               ["1"],
-              ["1"],
-              ["1"],
-              ["1"],
+              ["1", "2", "3"],
+              ["1", "2"],
               ["1"],
               ["1"],
               ["1"]
