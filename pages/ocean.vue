@@ -166,13 +166,13 @@ class Ocean {
             ]
             break
           case 4:
-            mReuse = [true, true, true, true, true, true, true]
+            mReuse = [true, true, true, true, true, true, false]
             mSucc = ["A", "B", "C", "D", "E", "F", "G"]
             mDest = [
-              ["1", "2"],
-              ["G"],
-              ["1", "2", "3"],
-              ["1", "2"],
+              ["E", "D"],
+              ["C"],
+              ["D", "B", "F"],
+              ["A", "C"],
               ["A"],
               ["C"],
               ["B"]
