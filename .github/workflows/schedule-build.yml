@@ -1,11 +1,11 @@
-name: Scheduled build
+name: 記録のアップデート
 
 on:
   push:
     branches:
       - master
   schedule:
-    - cron: '*/5 * * * *'
+    - cron: '*/10 * * * *'
 
 jobs:
   build:
