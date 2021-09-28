@@ -875,7 +875,7 @@
         "golden_ikura_num": 99,
         "ikura_num": "",
         "players": "",
-        "weapon_list": "",
+        "weapon_list": "0, 40, 5010, 20020",
         "movie": "",
         "seed": ""
     },
