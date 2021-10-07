@@ -776,7 +776,7 @@
         "golden_ikura_num": 95,
         "ikura_num": "",
         "players": "",
-        "weapon_list": "",
+        "weapon_list": "0, 40, 240, 20020",
         "movie": "https://www.youtube.com/watch?v=YkjSieGx_Uo",
         "seed": ""
     },
@@ -809,7 +809,7 @@
         "golden_ikura_num": 97,
         "ikura_num": "",
         "players": "",
-        "weapon_list": "",
+        "weapon_list": "0, 60, 5010, 20020",
         "movie": "https://www.youtube.com/watch?v=HtM0aCSj-6w&t=2s",
         "seed": ""
     },
@@ -842,7 +842,7 @@
         "golden_ikura_num": 94,
         "ikura_num": "",
         "players": "",
-        "weapon_list": "",
+        "weapon_list": "0, 40, 200, 20020",
         "movie": "https://www.youtube.com/watch?v=GrqInX9uB9U&t=1s",
         "seed": ""
     },
@@ -908,7 +908,7 @@
         "golden_ikura_num": 93,
         "ikura_num": "",
         "players": "",
-        "weapon_list": "",
+        "weapon_list": "0, 20, 200, 20020",
         "movie": "https://www.youtube.com/watch?v=xGFBNmDDcTk&t=1s",
         "seed": ""
     },
