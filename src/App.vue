@@ -1,6 +1,6 @@
 <script>
-import json from "/public/assets/json/records.json"
-import weapons from "/public/assets/json/weapons.json"
+import json from "./assets/json/records.json"
+import weapons from "./assets/json/weapons.json"
 
 const BASE_STAGE_URL = "https://app.splatoon2.nintendo.net/images/coop_stage/"
 const STAGE_URL = { 
