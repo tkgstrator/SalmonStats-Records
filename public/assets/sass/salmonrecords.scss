@@ -4,6 +4,7 @@
 
   .input-control {
     margin: 0 auto;
+    max-width: 600px;
     width: 80%;
     // min-width: 400px;
     text-align: center;
@@ -11,10 +12,10 @@
     font-family: "Splatfont2";
 
     label {
-      font-size: 1.1em;
-      position: absolute;
-      transform: translateY(-18px) scale(0.75);
-      transform-origin: top left;
+      font-size: 1em;
+      // position: absolute;
+      // transform: translateY(-18px) scale(0.75);
+      // transform-origin: top center;
     }
 
     .oceancalc-input-seed {
@@ -44,24 +45,17 @@
   }
 
   .oceancalc-option {
-    display: inline-flex;
-    justify-content: center;
-    // margin: 0 auto;
     font-family: "Splatfont2";
-    font-size: 1.1em;
-    width: 100%;
-    max-width: 20em;
-    list-style-type: none;
-    // flex-wrap: wrap;
-    padding-bottom: 30px;
+    font-size: 1em;
 
     li {
-      display: list-item;
-      width: 50%;
-      text-align: left;
+      display: inline-block;
       color: #ddd;
+      width: 20%;
     }
   }
+
+  padding-bottom: 20px;
 }
 
 input[type="radio"] + label {
@@ -325,6 +319,11 @@ div {
         filter: drop-shadow(0.15em 0.15em 0 #000);
       }
     }
+
+    .play_time {
+      font-size: 0.9em;
+    }
+
     @media (max-width: 640px) {
       .eggs {
         &::before {

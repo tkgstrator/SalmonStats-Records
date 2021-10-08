@@ -129,15 +129,21 @@ export default {
             var td = document.createElement("td")
             var eggs = document.createElement("p")
             var span = document.createElement("span")
+            var recordTime = document.createElement("p")
             var ul = document.createElement("ul")
 
             const waves = json[stageId][shiftType][recordType]["waves"]
             const wave = waves.filter(wave => wave["water_level"] == waterLevel && wave["event_type"] == eventType)
+
             // 存在する組み合わせかどうか
             // 記錄がある場合（まあ、ないことはないか）
             if (wave.length != 0) {
               // コンポーネント
               const record = wave[0]
+              const dateTime = new Date(record["start_time"] * 1000)
+              // console.log(dateTime.toLocaleDateString())
+              recordTime.textContent = dateTime.toLocaleDateString()
+              recordTime.className = "play_time"
               switch (this.recordType) {
                 case 0:
                   eggs.className = "power_eggs"
@@ -167,6 +173,7 @@ export default {
               // コンポーネントを整理
               eggs.appendChild(span)
               td.appendChild(eggs)
+              td.appendChild(recordTime)
               td.appendChild(ul)
               tr.appendChild(td)
             }
