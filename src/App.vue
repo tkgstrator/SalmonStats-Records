@@ -1,9 +1,7 @@
 <script>
 import json from "/public/assets/json/records.json"
 import weapons from "/public/assets/json/weapons.json"
-import style from "/public/assets/sass/style.scss"
-import splatnet2 from "/public/assets/sass/splatnet2.scss"
-import salmonrecords from "/public/assets/sass/salmonrecords.scss"
+
 
 const BASE_STAGE_URL = "https://app.splatoon2.nintendo.net/images/coop_stage/"
 const STAGE_URL = { 
@@ -56,6 +54,7 @@ export default {
   },
     data() {
     return {
+      shiftType: 0
       // json: json,
       // weapons: weapons
     }
@@ -63,7 +62,7 @@ export default {
   mounted() {
     const stage = ["wave", "shakeup", "shakeship", "shakehouse", "shakelift", "shakeride"]
     var table = document.createElement("table")
-    var tr = document.createElement("tr")
+    var tbody = document.createElement("tbody")
     var thead = document.createElement("thead")
     
     stage.forEach(key => {
@@ -84,50 +83,63 @@ export default {
     const shiftType = "grizzco"
     const recordType = "golden_eggs"
 
-    STAGE_TYPE.forEach(stageId => {
-      const waves = json[stageId][shiftType][recordType]["waves"]
-      var tr = document.createElement("tr")
+    EVENT_TYPE.forEach(eventType => {
       WATER_TYPE.forEach(waterLevel => {
-        EVENT_TYPE.forEach(eventType => {
-          const wave = waves.filter(wave => wave["water_level"] == waterLevel && wave["event_type"] == eventType)
-          // 記錄がある場合（まあ、ないことはないか）
-          if (wave.length != 0) {
+        // 存在する組み合わせかどうか
+        if (!((waterLevel == "low" && eventType == "rush") || (waterLevel == "low" && eventType == "goldie-seeking") || (waterLevel == "low" && eventType == "griller") || (waterLevel != "low" && eventType == "cohock-charge"))) {
+        // if (true) {
+          var tr = document.createElement("tr")
+          // WAVE情報
+          var td = document.createElement("td")
+          var span = document.createElement("span")
+          span.textContent = waterLevel + eventType
+          td.appendChild(span)
+          tr.appendChild(td)
+          
+          // 記錄作成
+          STAGE_TYPE.forEach(stageId => {
             // コンポーネント
-            const record = wave[0]
             var td = document.createElement("td")
-            // 金イクラか赤イクラの画像
             var eggs = document.createElement("p")
-            // 金イクラ数
             var span = document.createElement("span")
-            // ブキリスト
             var ul = document.createElement("ul")
-            // クラスの設定
-            eggs.className = "eggs"
-            span.className = "golden_ikura_num"
-            ul.className = "weapons"
-            
-            span.textContent = record["golden_eggs"]
-            // ブキを追加
-            record["weapon_list"].forEach(weaponId => {
-              var li = document.createElement("li")
-              var img = document.createElement("img")
-              if (weaponId >= 0) {
-                img.src = BASE_WEAPON_URL + weapons[weaponId]
-              } else {
-                img.src = BASE_COOP_WEAPON_URL + weapons[weaponId]
-              }
-              li.appendChild(img)
-              ul.appendChild(li)
-            })
-            eggs.appendChild(span)
-            td.appendChild(eggs)
-            td.appendChild(ul)
-            tr.appendChild(td)
-          }
-        })
+
+            const waves = json[stageId][shiftType][recordType]["waves"]
+            const wave = waves.filter(wave => wave["water_level"] == waterLevel && wave["event_type"] == eventType)
+            // 存在する組み合わせかどうか
+            // 記錄がある場合（まあ、ないことはないか）
+            if (wave.length != 0) {
+              // コンポーネント
+              const record = wave[0]
+              eggs.className = "eggs"
+              span.className = "golden_ikura_num"
+              ul.className = "weapons"
+
+              span.textContent = record["golden_eggs"]
+              // ブキを追加
+              record["weapon_list"].forEach(weaponId => {
+                var li = document.createElement("li")
+                var img = document.createElement("img")
+                if (weaponId >= 0) {
+                  img.src = BASE_WEAPON_URL + weapons[weaponId]
+                } else {
+                  img.src = BASE_COOP_WEAPON_URL + weapons[weaponId]
+                }
+                li.appendChild(img)
+                ul.appendChild(li)
+              })
+              // コンポーネントを整理
+              eggs.appendChild(span)
+              td.appendChild(eggs)
+              td.appendChild(ul)
+              tr.appendChild(td)
+            }
+          })
+          tbody.appendChild(tr)
+        }
       })
-      table.appendChild(tr)
     })
+    table.appendChild(tbody)
     document.getElementById("coop-overfishing-records").appendChild(table)
   }
 }
@@ -147,19 +159,23 @@ export default {
       <h2><span>Salmon Run</span></h2>
       <h3><span>Salmon Stats Records</span></h3>
     </div>
+    <div id="content">
+     <div class="input-control">
+      <ul class="oceancalc-option">
+        <template v-for="(name, index) in ['Normal', 'Random 1', 'Random 4', 'Grizzco']">
+        <li @click="this.shiftType=index">
+          <input type="radio" :checked="index==this.shiftType">
+          <label>{{ name }}</label>
+          </li>
+          </template>
+      </ul>
+     </div>
+     </div>
     <div class="coop-overfishing-list-wrapper">
       <div id="coop-overfishing-records"></div>
     </div>
   </div>
 </template>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  /* margin-top: 60px; */
-}
+<style lang="scss">
 </style>
