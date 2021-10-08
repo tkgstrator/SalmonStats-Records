@@ -1,9 +1,9 @@
-name: 記録のアップデート
+name: Salmon Statsの記録のアップデート
 
 on:
   push:
     branches:
-      - master
+      - salmonstats
   schedule:
     - cron: '*/10 * * * *'
 
@@ -24,7 +24,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install requests
 
-      - name: Run right.py # PythonでAPIからデータ取得
+      - name: Run main.py # PythonでAPIからデータ取得
         run: |
           python main.py
 
