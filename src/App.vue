@@ -58,6 +58,43 @@ export default {
     }
   },
   methods: {
+    getWaveInfo(waterLevel, eventType) {
+      switch (waterLevel) {
+        case "low":
+          waterLevel = "LT"
+          break
+        case "normal":
+          waterLevel = "NT"
+          break
+        case "high":
+          waterLevel = "HT"
+          break
+      }
+      switch (eventType) {
+        case "-":
+          eventType = "-"
+          break
+        case "rush":
+          eventType = "Rush"
+          break
+        case "goldie-seeking":
+          eventType = "Goldie Seeking"
+          break
+        case "griller":
+          eventType = "Griller"
+          break
+        case "the-mothership":
+          eventType = "The mothership"
+          break
+        case "fog":
+          eventType = "Fog"
+          break
+        case "cohock-charge":
+          eventType = "Cohock Charge"
+          break
+      }
+      return `${waterLevel} ${eventType}`
+    },
     generate() {
       const el = document.getElementById("salmonstats-record")
       if (el != null) {
@@ -65,7 +102,6 @@ export default {
       }
       let shiftType = "normal"
       let recordType = "golden_eggs"
-
 
       switch (this.shiftType) {
         case 0:
@@ -117,9 +153,9 @@ export default {
         // if (true) {
           var tr = document.createElement("tr")
           // WAVE情報
-          var td = document.createElement("td")
+          var td = document.createElement("th")
           var span = document.createElement("span")
-          span.textContent = waterLevel + eventType
+          span.textContent = this.getWaveInfo(waterLevel, eventType)
           td.appendChild(span)
           tr.appendChild(td)
           
