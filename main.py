@@ -138,7 +138,7 @@ if __name__ == "__main__":
                 scheduleRecords.append(dict)
 
     # 全記錄を読み込んで編成ごとに最も良いものを計算する
-    records = os.listdir("records")
+    records = os.listdir("/public/assets/json/records")
 
     waves = [[], []]
     totals = [[], []]
@@ -228,5 +228,5 @@ if __name__ == "__main__":
             }
         # ステージごとの記錄
         records[stage_id] = shift_records
-    with open("records.json", mode="w") as f:
+    with open("/public/assets/json/records.json", mode="w") as f:
         json.dump(records, f)

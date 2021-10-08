@@ -1,27 +1,17 @@
 {
-  "name": "salmonrun-records",
-  "version": "1.0.0",
-  "private": true,
+  "name": "salmonstats",
+  "version": "0.0.0",
   "scripts": {
-    "dev": "nuxt",
-    "build": "nuxt build",
-    "start": "nuxt start",
-    "generate": "nuxt generate"
+    "dev": "vite",
+    "build": "vite build",
+    "serve": "vite preview"
   },
   "dependencies": {
-    "@fortawesome/fontawesome-svg-core": "^1.2.32",
-    "@fortawesome/free-solid-svg-icons": "^5.15.1",
-    "@fortawesome/vue-fontawesome": "^2.0.0",
-    "@nuxt/content": "^1.9.0",
-    "@nuxtjs/axios": "^5.12.2",
-    "@nuxtjs/pwa": "^3.0.2",
-    "core-js": "^3.6.5",
-    "nuxt": "^2.14.12",
-    "nuxt-fontawesome": "^0.4.0",
-    "nuxt-i18n": "^6.15.4",
-    "sass": "^1.32.0",
-    "sass-loader": "^10.1.0",
-    "vuesax": "^4.0.1-alpha.25"
+    "vue": "^3.2.16"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^1.9.3",
+    "sass": "^1.42.1",
+    "vite": "^2.6.4"
+  }
 }
