@@ -2,7 +2,6 @@
 import json from "/public/assets/json/records.json"
 import weapons from "/public/assets/json/weapons.json"
 
-
 const BASE_STAGE_URL = "https://app.splatoon2.nintendo.net/images/coop_stage/"
 const STAGE_URL = { 
   shakeup: "65c68c6f0641cc5654434b78a6f10b0ad32ccdee.png",
@@ -54,16 +53,37 @@ export default {
   },
     data() {
     return {
-      shiftType: 0
-      // json: json,
-      // weapons: weapons
+      shiftType: 0,
+      recordType: 0
     }
   },
-  mounted() {
+  methods: {
+    generate(type) {
+      const el = document.getElementById("salmonstats-record")
+      if (el != null) {
+        el.remove()
+      }
+      var shiftType = null
+      switch (type) {
+        case 0:
+          shiftType = "normal" 
+          break
+        case 1:
+          shiftType = "random1" 
+          break
+        case 2:
+          shiftType = "random4" 
+          break
+        case 3:
+          shiftType = "grizzco" 
+          break
+      }
     const stage = ["wave", "shakeup", "shakeship", "shakehouse", "shakelift", "shakeride"]
     var table = document.createElement("table")
     var tbody = document.createElement("tbody")
     var thead = document.createElement("thead")
+
+    table.id = "salmonstats-record"
     
     stage.forEach(key => {
       var th = document.createElement("th")
@@ -80,7 +100,6 @@ export default {
     table.appendChild(thead)
 
     // データの表示
-    const shiftType = "grizzco"
     const recordType = "golden_eggs"
 
     EVENT_TYPE.forEach(eventType => {
@@ -141,6 +160,17 @@ export default {
     })
     table.appendChild(tbody)
     document.getElementById("coop-overfishing-records").appendChild(table)
+    }
+  },
+  mounted() {
+    this.generate(0)
+  },
+  watch: {
+    shiftType: {
+      handler: function (newValue, oldValue) {
+        this.generate(newValue)
+      }
+    }
   }
 }
 </script>
@@ -161,6 +191,7 @@ export default {
     </div>
     <div id="content">
      <div class="input-control">
+       <div>
       <ul class="oceancalc-option">
         <template v-for="(name, index) in ['Normal', 'Random 1', 'Random 4', 'Grizzco']">
         <li @click="this.shiftType=index">
@@ -169,6 +200,17 @@ export default {
           </li>
           </template>
       </ul>
+       </div>
+       <div>
+      <ul class="oceancalc-option">
+        <template v-for="(name, index) in ['Power Eggs', 'Golden Eggs']">
+        <li @click="this.recordType=index">
+          <input type="radio" :checked="index==this.recordType">
+          <label>{{ name }}</label>
+          </li>
+          </template>
+      </ul>
+      </div>
      </div>
      </div>
     <div class="coop-overfishing-list-wrapper">
