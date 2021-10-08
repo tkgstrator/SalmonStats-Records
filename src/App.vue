@@ -58,13 +58,16 @@ export default {
     }
   },
   methods: {
-    generate(type) {
+    generate() {
       const el = document.getElementById("salmonstats-record")
       if (el != null) {
         el.remove()
       }
-      var shiftType = null
-      switch (type) {
+      let shiftType = "normal"
+      let recordType = "golden_eggs"
+
+
+      switch (this.shiftType) {
         case 0:
           shiftType = "normal" 
           break
@@ -76,6 +79,14 @@ export default {
           break
         case 3:
           shiftType = "grizzco" 
+          break
+      }
+      switch (this.recordType) {
+        case 0:
+          recordType = "power_eggs" 
+          break
+        case 1:
+          recordType = "golden_eggs" 
           break
       }
     const stage = ["wave", "shakeup", "shakeship", "shakehouse", "shakelift", "shakeride"]
@@ -98,9 +109,6 @@ export default {
       thead.appendChild(th)
     })
     table.appendChild(thead)
-
-    // データの表示
-    const recordType = "golden_eggs"
 
     EVENT_TYPE.forEach(eventType => {
       WATER_TYPE.forEach(waterLevel => {
@@ -130,11 +138,20 @@ export default {
             if (wave.length != 0) {
               // コンポーネント
               const record = wave[0]
-              eggs.className = "eggs"
-              span.className = "golden_ikura_num"
+              switch (this.recordType) {
+                case 0:
+                  eggs.className = "power_eggs"
+                  span.className = "power_ikura_num"
+                  span.textContent = record["power_eggs"]
+                  break
+                case 1:
+                  eggs.className = "golden_eggs"
+                  span.className = "golden_ikura_num"
+                  span.textContent = record["golden_eggs"]
+                  break
+              }
               ul.className = "weapons"
 
-              span.textContent = record["golden_eggs"]
               // ブキを追加
               record["weapon_list"].forEach(weaponId => {
                 var li = document.createElement("li")
@@ -168,9 +185,14 @@ export default {
   watch: {
     shiftType: {
       handler: function (newValue, oldValue) {
-        this.generate(newValue)
+        this.generate()
       }
-    }
+    },
+    recordType: {
+      handler: function (newValue, oldValue) {
+        this.generate()
+      }
+    },
   }
 }
 </script>
