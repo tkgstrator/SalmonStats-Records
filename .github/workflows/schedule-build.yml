@@ -5,7 +5,7 @@ on:
     branches:
       - salmonstats
   schedule:
-    - cron: '*/10 * * * *'
+    - cron: "*/10 * * * *"
 
 jobs:
   build:
@@ -17,7 +17,7 @@ jobs:
       - name: Setup Python # Pythonのセットアップ
         uses: actions/setup-python@v2
         with:
-          python-version: '3.9' # Pythonのバージョン指定
+          python-version: "3.9" # Pythonのバージョン指定
 
       - name: Install dependencies # 依存パッケージのインストール
         run: |
@@ -36,5 +36,5 @@ jobs:
           if (git diff --shortstat | grep '[0-9]'); then \
             git add .; \
             git commit -m "LanPlayの記録をアップデート"; \
-            git push origin master; \
+            git push origin salmonstats; \
           fi
