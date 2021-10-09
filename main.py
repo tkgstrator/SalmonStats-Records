@@ -63,7 +63,7 @@ class Record:
 
 
 if __name__ == "__main__":
-    with open("public/assets/json/schedule.json", mode="r") as f:
+    with open("src/assets/json/schedule.json", mode="r") as f:
         print(f"Getting latest records from Salmon Stats")
         currentTime = datetime.datetime.now().timestamp()
         # schedules = list(filter(lambda x: x["start_time"] >= 1568246400 and x["start_time"] < currentTime, json.load(f)))
@@ -133,17 +133,19 @@ if __name__ == "__main__":
                         },
                     }
                 }
-                with open(f"public/assets/json/records/{startTime}.json", mode="w") as w:
+                with open(f"src/assets/json/records/{startTime}.json", mode="w") as w:
                     json.dump(dict, w)
                 scheduleRecords.append(dict)
+        with open(f"src/assets/json/current.json", mode="w") as w:
+            json.dump(dict, w)
 
     # 全記錄を読み込んで編成ごとに最も良いものを計算する
-    records = os.listdir("public/assets/json/records")
+    records = os.listdir("src/assets/json/records")
 
     waves = [[], []]
     totals = [[], []]
     for record in records:
-        with open(f"public/assets/json/records/{record}", mode="r") as f:
+        with open(f"src/assets/json/records/{record}", mode="r") as f:
             record = json.load(f)
             stageId = record["stage_id"]
             shiftType = record["shift_type"]
@@ -228,5 +230,5 @@ if __name__ == "__main__":
             }
         # ステージごとの記錄
         records[stage_id] = shift_records
-    with open("public/assets/json/records.json", mode="w") as f:
+    with open("src/assets/json/records.json", mode="w") as f:
         json.dump(records, f)
