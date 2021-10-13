@@ -35,6 +35,6 @@ jobs:
           git pull
           if (git diff --shortstat | grep '[0-9]'); then \
             git add .; \
-            git commit -m "LanPlayの記録をアップデート"; \
+            git commit -m "Salmon Statsの記録をアップデート"; \
             git push origin salmonstats; \
           fi
