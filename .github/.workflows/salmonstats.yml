@@ -1,0 +1,44 @@
+name: SalmonStatsの記錄のアップデート
+
+on:
+  push:
+    branches:
+      - salmonstats
+  schedule:
+    - cron: "*/10 * * * *"
+
+jobs:
+  build:
+    name: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup Python # Pythonのセットアップ
+        uses: actions/setup-python@v2
+        with:
+          python-version: "3.9" # Pythonのバージョン指定
+
+      - name: Install dependencies # 依存パッケージのインストール
+        run: |
+          python -m pip install --upgrade pip
+          pip install requests
+
+      - name: Checkout SalmonStats branche # LanPlayブランチに切り替え
+        run: |
+          git checkout salmonstats
+
+      - name: Run main.py # PythonでAPIからデータ取得
+        run: |
+          python main.py
+
+      - name: Commit and Push # 実行結果をプッシュしてレポジトリに反映
+        run: |
+          git config --local user.email "nasawake.am@gmail.com"
+          git config --local user.name "tkgstrator"
+          git pull
+          if (git diff --shortstat | grep '[0-9]'); then \
+            git add .; \
+            git commit -m "- LanPlayの記録をアップデート"; \
+            git push origin salmonstats; \
+          fi
