@@ -26,7 +26,8 @@ jobs:
 
       - name: Checkout SalmonStats branche # LanPlayブランチに切り替え
         run: |
-        git checkout salmonstats
+          git checkout salmonstats
+
       - name: Run right.py # PythonでAPIからデータ取得
         run: |
           python main.py
