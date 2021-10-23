@@ -8,6 +8,7 @@ import copy
 class Stats:
     def __init__(self, json, shiftType, stageId, startTime, weaponList):
         self.stage_id = stageId
+        self.salmon_id = json["id"]
         self.shift_type = shiftType
         self.golden_eggs = json["golden_eggs"]
         self.power_eggs = json["power_eggs"]
