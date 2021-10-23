@@ -1,9 +1,9 @@
-name: 記録のアップデート
+name: LanPlayの記錄のアップデート
 
 on:
   push:
     branches:
-      - master
+      - lanplay
   schedule:
     - cron: '*/10 * * * *'
 
@@ -24,6 +24,9 @@ jobs:
           python -m pip install --upgrade pip
           pip install requests
 
+      - name: Checkout LanPlay branche # LanPlayブランチに切り替え
+        run: |
+        git checkout lanplay
       - name: Run right.py # PythonでAPIからデータ取得
         run: |
           python main.py
@@ -35,6 +38,6 @@ jobs:
           git pull
           if (git diff --shortstat | grep '[0-9]'); then \
             git add .; \
-            git commit -m "LanPlayの記録をアップデート"; \
+            git commit -m "- LanPlayの記録をアップデート"; \
             git push origin master; \
           fi
