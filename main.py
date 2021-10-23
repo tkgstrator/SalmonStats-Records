@@ -67,7 +67,7 @@ if __name__ == "__main__":
         print(f"Getting latest records from Salmon Stats")
         currentTime = datetime.datetime.now().timestamp()
         # schedules = list(filter(lambda x: x["start_time"] >= 1568246400 and x["start_time"] < currentTime, json.load(f)))
-        schedules = list(filter(lambda x: x["start_time"] > currentTime - 3600 * 24 * 7 and x["start_time"] < currentTime, json.load(f)))
+        schedules = list(filter(lambda x: x["start_time"] > currentTime - 3600 * 24 * 14 and x["start_time"] < currentTime, json.load(f)))
         print(f"Getting {len(schedules)} records")
         scheduleRecords = []
 

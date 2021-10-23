@@ -1,0 +1,44 @@
+[
+  {
+    "name": "database___ja",
+    "path": "/database",
+    "component": "/Users/devonly/SalmonRun-Records/pages/database.vue",
+    "chunkName": "pages/database",
+    "_name": "_48a3cb6e"
+  },
+  {
+    "name": "index___en",
+    "path": "/en",
+    "component": "/Users/devonly/SalmonRun-Records/pages/index.vue",
+    "chunkName": "pages/index",
+    "_name": "_38d82274"
+  },
+  {
+    "name": "ocean___ja",
+    "path": "/ocean",
+    "component": "/Users/devonly/SalmonRun-Records/pages/ocean.vue",
+    "chunkName": "pages/ocean",
+    "_name": "_694bbca0"
+  },
+  {
+    "name": "database___en",
+    "path": "/en/database",
+    "component": "/Users/devonly/SalmonRun-Records/pages/database.vue",
+    "chunkName": "pages/database",
+    "_name": "_48a3cb6e"
+  },
+  {
+    "name": "ocean___en",
+    "path": "/en/ocean",
+    "component": "/Users/devonly/SalmonRun-Records/pages/ocean.vue",
+    "chunkName": "pages/ocean",
+    "_name": "_694bbca0"
+  },
+  {
+    "name": "index___ja",
+    "path": "/",
+    "component": "/Users/devonly/SalmonRun-Records/pages/index.vue",
+    "chunkName": "pages/index",
+    "_name": "_38d82274"
+  }
+]
