@@ -95,26 +95,31 @@ class Record:
 
 
 if __name__ == "__main__":
-    # ディレクトリの作成
-    try:
-        os.makedirs("src/assets/json/results")
-    except:
-        pass
+    # ローカル環境変数の読み込み
+    load_dotenv()
+
+    # プレイヤーのIDを入力
+    player_ids = os.environ.get("PLAYER_ID").split(",")
+    print("Registered Player Ids", player_ids)
+
+    for player_id in player_ids:
+        # ディレクトリの作成
+        try:
+            os.makedirs(f"src/assets/json/results/{player_id}")
+        except:
+            pass
+
     with open("src/assets/json/schedule.json", mode="r") as f:
         currentTime = datetime.datetime.now().timestamp()
         schedules = list(filter(lambda x: x["start_time"] < currentTime, json.load(f)))
         schedules = list(map(lambda x: Schedule(x), schedules))
-
-        # プレイヤーのIDを入力
-        player_ids = os.environ.get("PLAYER_ID").split(",")
-        print("Registered Player Ids", player_ids)
 
         for player_id in player_ids:
             print(f"Getting metadata {player_id}")
             # メタデータの取得
             url = f"https://salmon-stats-api.yuki.games/api/players/metadata/?ids={player_id}"
             metadata = Metadata(requests.get(url).json()[0])
-            results = os.listdir(f"src/assets/json/results")
+            results = os.listdir(f"src/assets/json/results/{player_id}/")
             min_page_id = int(len(results) / 200) + 1
             max_page_id = int((metadata.failure + metadata.clear) / 200) + 1
 
@@ -133,26 +138,28 @@ if __name__ == "__main__":
                     start_time = schedule.start_time
                     weapon_list = schedule.weapon_list
                     result = Result(result, shift_type, stage_id, start_time, weapon_list)
-                    with open(f"src/assets/json/results/{result.salmon_id}.json", mode="w") as w:
+                    with open(f"src/assets/json/results/{player_id}/{result.salmon_id}.json", mode="w") as w:
                         json.dump(result.__dict__, w)
 
-    # 全記錄を読み込んで編成ごとに最も良いものを計算する
-    results = os.listdir("src/assets/json/results")
-
     waves = []
-    for result in results:
-        with open(f"src/assets/json/results/{result}", mode="r") as f:
-            result = json.load(f)
-            salmon_id = result["salmon_id"]
-            stage_id = result["stage_id"]
-            shift_type = result["shift_type"]
-            weapon_list = result["weapon_list"]
-            start_time = result["start_time"]
-            danger_rate = result["danger_rate"]
-            members = result["members"]
-            # 金イクラWAVE記錄
-            waves.extend(list(map(lambda x: Record(x, salmon_id, shift_type, weapon_list,
-                         start_time, danger_rate, members, stage_id), result["wave"])))
+
+    # 全記錄を読み込んで編成ごとに最も良いものを計算する
+    for player_id in player_ids:
+        results = os.listdir("src/assets/json/results/{player_id}")
+        for result in results:
+            with open(f"src/assets/json/results/{result}", mode="r") as f:
+                result = json.load(f)
+                salmon_id = result["salmon_id"]
+                stage_id = result["stage_id"]
+                shift_type = result["shift_type"]
+                weapon_list = result["weapon_list"]
+                start_time = result["start_time"]
+                danger_rate = result["danger_rate"]
+                members = result["members"]
+                # 金イクラWAVE記錄
+                waves.extend(list(map(lambda x: Record(x, salmon_id, shift_type, weapon_list,
+                             start_time, danger_rate, members, stage_id), result["wave"])))
+    # 記錄の計算
     records = {}
     for stage_id in [5000, 5001, 5002, 5003, 5004]:
         shift_records = {}
