@@ -97,7 +97,7 @@ class Record:
 if __name__ == "__main__":
     # ディレクトリの作成
     try:
-        os.makedirs("results")
+        os.makedirs("src/assets/json/results")
     except:
         pass
     with open("src/assets/json/schedule.json", mode="r") as f:
