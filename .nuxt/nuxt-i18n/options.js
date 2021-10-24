@@ -1,0 +1,29 @@
+export const vueI18n = {"fallbackLocale":"en","silentFallbackWarn":true,"messages":{"ja":{"1":"1","2":"2","3":"3","stage":{"shakeup":"シェケナダム","shakeship":"難破船ドン・ブラコ","shakehouse":"海上集落シャケト場","shakelift":"トキシラズいぶし工房","shakeride":"朽ちた箱舟ポラリス"},"salmonid":{"none":"-","goldie":"キンシャケ","steelhead":"バクダン","flyfish":"カタパッド","scrapper":"テッパン","steeleel":"ヘビ","tower":"タワー","maws":"モグラ","griller":"グリル","drizzler":"コウモリ"},"initialseed":"初期シード","hex":"(16進数)","tide":"潮位","event":"イベント","noevent":"イベントなし","rush":"ラッシュ","goldie-seeking":"キンシャケ探し","the-griller":"グリル発進","the-mothership":"ハコビヤ襲来","fog":"霧","cohock-charge":"ドスコイ大量発生","none":"-","goldie":"キンシャケ","steelhead":"バクダン","flyfish":"カタパッド","scrapper":"テッパン","steeleel":"ヘビ","tower":"タワー","maws":"モグラ","griller":"グリル","drizzler":"コウモリ","low":"干潮","normal":"通常","high":"満潮","A":"A","B":"B","C":"C","D":"D","E":"E","F":"F","G":"G","H":"H","I":"I","-1":"-1","-2":"-2","-3":"-3"},"en":{"stage":{"shakeup":"Spawning Ground","shakeship":"Marooner's Bay","shakehouse":"Lost Outpost","shakelift":"Salmonid Smokeyard","shakeride":"Ruins of Ark Polaris"},"salmonid":{"none":"-","goldie":"Goldie","steelhead":"Steelhead","flyfish":"Flyfish","scrapper":"Scraper","steeleel":"Steel Eel","tower":"Tower","maws":"Maws","griller":"Griller","dirzzler":"Drizzler"},"initialseed":"Initial Seed","hex":"(Hex)","tide":"Tide","event":"Event","noevent":"No Event","rush":"Rush","goldie-seeking":"Goldie Seeking","the-griller":"Griller","the-mothership":"The Mothership","fog":"Fog","cohock-charge":"Cohock Charge","none":"-","goldie":"Goldie","steelhead":"Steelhead","flyfish":"Flyfish","scrapper":"Scraper","steeleel":"Steel Eel","tower":"Tower","maws":"Maws","griller":"Griller","dirzzler":"Drizzler","low":"Low tide","normal":"Normal","high":"High tide"}}}
+export const vueI18nLoader = false
+export const locales = ["ja","en"]
+export const defaultLocale = 'ja'
+export const routesNameSeparator = '___'
+export const defaultLocaleRouteNameSuffix = 'default'
+export const strategy = 'prefix_except_default'
+export const lazy = false
+export const langDir = null
+export const rootRedirect = null
+export const detectBrowserLanguage = {"useCookie":true,"cookieCrossOrigin":false,"cookieDomain":null,"cookieKey":"i18n_redirected","cookieSecure":false,"alwaysRedirect":false,"fallbackLocale":"","onlyOnRoot":false}
+export const differentDomains = false
+export const seo = false
+export const baseUrl = ''
+export const vuex = {"moduleName":"i18n","syncLocale":false,"syncMessages":false,"syncRouteParams":true}
+export const parsePages = true
+export const pages = {}
+export const beforeLanguageSwitch = () => null
+export const onLanguageSwitched = () => null
+export const IS_UNIVERSAL_MODE = false
+export const MODULE_NAME = 'nuxt-i18n'
+export const LOCALE_CODE_KEY = 'code'
+export const LOCALE_ISO_KEY = 'iso'
+export const LOCALE_DOMAIN_KEY = 'domain'
+export const LOCALE_FILE_KEY = 'file'
+export const STRATEGIES = {"PREFIX":"prefix","PREFIX_EXCEPT_DEFAULT":"prefix_except_default","PREFIX_AND_DEFAULT":"prefix_and_default","NO_PREFIX":"no_prefix"}
+export const COMPONENT_OPTIONS_KEY = 'nuxtI18n'
+export const localeCodes = ["ja","en"]
+export const trailingSlash = undefined
