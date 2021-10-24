@@ -106,9 +106,11 @@ if __name__ == "__main__":
         schedules = list(map(lambda x: Schedule(x), schedules))
 
         # プレイヤーのIDを入力
-        player_ids = os.environ.get("PLAYER_ID")
+        player_ids = os.environ.get("PLAYER_ID").split(",")
+        print("Registered Player Ids", player_ids)
 
         for player_id in player_ids:
+            print(f"Getting metadata {player_id}")
             # メタデータの取得
             url = f"https://salmon-stats-api.yuki.games/api/players/metadata/?ids={player_id}"
             metadata = Metadata(requests.get(url).json()[0])
