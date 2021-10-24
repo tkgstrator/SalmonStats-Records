@@ -3,7 +3,7 @@ name: SalmonStatsの記錄のアップデート
 on:
   push:
     branches:
-      - lanplay
+      - master
   schedule:
     - cron: "*/30 * * * *"
 
