@@ -3,9 +3,9 @@ name: SalmonStatsの記錄のアップデート
 on:
   push:
     branches:
-      - 8db26d4c24ee37fd
+      - master
   schedule:
-    - cron: "*/10 * * * *"
+    - cron: "*/30 * * * *"
 
 jobs:
   build:
@@ -32,9 +32,10 @@ jobs:
         run: |
           git config --local user.email "nasawake.am@gmail.com"
           git config --local user.name "tkgstrator"
+          git config pull.rebase false
           git pull
           if (git diff --shortstat | grep '[0-9]'); then \
             git add .; \
             git commit -m "- SalmonStatsの記録のアップデート"; \
-            git push origin 8db26d4c24ee37fd; \
+            git push origin master; \
           fi
