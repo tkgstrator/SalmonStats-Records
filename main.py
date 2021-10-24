@@ -145,9 +145,9 @@ if __name__ == "__main__":
 
     # 全記錄を読み込んで編成ごとに最も良いものを計算する
     for player_id in player_ids:
-        results = os.listdir("src/assets/json/results/{player_id}")
+        results = os.listdir(f"src/assets/json/results/{player_id}")
         for result in results:
-            with open(f"src/assets/json/results/{result}", mode="r") as f:
+            with open(f"src/assets/json/results/{player_id}/{result}", mode="r") as f:
                 result = json.load(f)
                 salmon_id = result["salmon_id"]
                 stage_id = result["stage_id"]
