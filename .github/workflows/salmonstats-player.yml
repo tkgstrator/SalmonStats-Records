@@ -3,7 +3,7 @@ name: SalmonStatsの記錄のアップデート
 on:
   push:
     branches:
-      - salmonstats
+      - 8db26d4c24ee37fd
   schedule:
     - cron: "*/10 * * * *"
 
@@ -36,5 +36,5 @@ jobs:
           if (git diff --shortstat | grep '[0-9]'); then \
             git add .; \
             git commit -m "- SalmonStatsの記録のアップデート"; \
-            git push origin salmonstats; \
+            git push origin 8db26d4c24ee37fd; \
           fi

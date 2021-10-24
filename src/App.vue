@@ -184,12 +184,12 @@ export default {
                 case 0:
                   eggs.className = "power_eggs"
                   span.className = "power_ikura_num"
-                  span.textContent = record["power_eggs"]
+                  span.textContent = record["ikura_num"]
                   break
                 case 1:
                   eggs.className = "golden_eggs"
                   span.className = "golden_ikura_num"
-                  span.textContent = record["golden_eggs"]
+                  span.textContent = record["golden_ikura_num"]
                   break
               }
               ul.className = "weapons"
