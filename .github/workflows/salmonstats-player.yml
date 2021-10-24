@@ -26,6 +26,8 @@ jobs:
           pip install python-dotenv
 
       - name: Run main.py # PythonでAPIからデータ取得
+        env:
+          PLAYER_ID: ${{ secrets.PLAYER_ID }}
         run: |
           python main.py
 
